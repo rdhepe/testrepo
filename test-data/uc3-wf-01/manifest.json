@@ -1,0 +1,36 @@
+{
+  "testCaseId": "UC3-WF-01",
+  "applicationId": "SYN-TRN-001",
+  "synthetic": true,
+  "repositoryReference": "https://github.com/rdhepe/testrepo",
+  "repositoryConfigured": true,
+  "externalChecksRequired": [
+    "Confirm UC3 mandatory fields and allowed document types/sizes",
+    "Verify published repository and UC3 access",
+    "Obtain repository approval",
+    "Use an existing authorized UC3 assessor"
+  ],
+  "uc3ExecutionStatus": "NOT_RUN",
+  "documents": [
+    {
+      "path": "documents/HLD.pdf",
+      "bytes": 3586,
+      "sha256": "c4b5ee61d14681d06f18edb42da4ca70e4ea01b56810323c5005bfff45d398c3"
+    },
+    {
+      "path": "documents/HLD.docx",
+      "bytes": 11217,
+      "sha256": "2f36922a41dd302a1763cac4135077f8ce78508cee1cea86f0ba5360bb85a2b1"
+    },
+    {
+      "path": "documents/DPIA.pdf",
+      "bytes": 3751,
+      "sha256": "f9cfb8f018a9efe54830d176fd810ca0a6ea7666c4cf674e571bf45e50272aee"
+    },
+    {
+      "path": "documents/DPIA.docx",
+      "bytes": 11311,
+      "sha256": "6752f0d3abb7857555a27ced91380d0901f2b9b7b4ef2bb5226cb3753fc30be0"
+    }
+  ]
+}

@@ -1,0 +1,104 @@
+{
+  "testCaseId": "UC3-WF-01",
+  "policy": "Fixture candidates, not an assertion of the approved UC3 schema or validation policy.",
+  "cases": [
+    {
+      "id": "WF01-POS-01",
+      "metadata": "application-metadata.json",
+      "hld": "documents/HLD.pdf",
+      "dpia": "documents/DPIA.pdf",
+      "expected": "With approved repository and valid UC3 field mapping, create a unique assessment; reopening preserves all entered values and both attachments."
+    },
+    {
+      "id": "WF01-MISSING-applicationName",
+      "metadata": "negative/missing-applicationName.json",
+      "hld": "documents/HLD.pdf",
+      "dpia": "documents/DPIA.pdf",
+      "expected": "If applicationName is mandatory in UC3, reject with field-specific feedback and create no assessment. Confirm approved rules."
+    },
+    {
+      "id": "WF01-MISSING-applicationId",
+      "metadata": "negative/missing-applicationId.json",
+      "hld": "documents/HLD.pdf",
+      "dpia": "documents/DPIA.pdf",
+      "expected": "If applicationId is mandatory in UC3, reject with field-specific feedback and create no assessment. Confirm approved rules."
+    },
+    {
+      "id": "WF01-MISSING-businessOwner",
+      "metadata": "negative/missing-businessOwner.json",
+      "hld": "documents/HLD.pdf",
+      "dpia": "documents/DPIA.pdf",
+      "expected": "If businessOwner is mandatory in UC3, reject with field-specific feedback and create no assessment. Confirm approved rules."
+    },
+    {
+      "id": "WF01-MISSING-ownerEmail",
+      "metadata": "negative/missing-ownerEmail.json",
+      "hld": "documents/HLD.pdf",
+      "dpia": "documents/DPIA.pdf",
+      "expected": "If ownerEmail is mandatory in UC3, reject with field-specific feedback and create no assessment. Confirm approved rules."
+    },
+    {
+      "id": "WF01-MISSING-businessPurpose",
+      "metadata": "negative/missing-businessPurpose.json",
+      "hld": "documents/HLD.pdf",
+      "dpia": "documents/DPIA.pdf",
+      "expected": "If businessPurpose is mandatory in UC3, reject with field-specific feedback and create no assessment. Confirm approved rules."
+    },
+    {
+      "id": "WF01-MISSING-repositoryReference",
+      "metadata": "negative/missing-repositoryReference.json",
+      "hld": "documents/HLD.pdf",
+      "dpia": "documents/DPIA.pdf",
+      "expected": "If repositoryReference is mandatory in UC3, reject with field-specific feedback and create no assessment. Confirm approved rules."
+    },
+    {
+      "id": "WF01-INVALID-EMAIL",
+      "metadata": "negative/invalid-email.json",
+      "hld": "documents/HLD.pdf",
+      "dpia": "documents/DPIA.pdf",
+      "expected": "Validate email according to approved UC3 rules."
+    },
+    {
+      "id": "WF01-INVALID-REPOSITORY",
+      "metadata": "negative/invalid-repository.json",
+      "hld": "documents/HLD.pdf",
+      "dpia": "documents/DPIA.pdf",
+      "expected": "Reject invalid repository reference with validation feedback."
+    },
+    {
+      "id": "WF01-INVALID-METADATA-TYPE",
+      "metadata": "negative/invalid-metadata-type.json",
+      "hld": "documents/HLD.pdf",
+      "dpia": "documents/DPIA.pdf",
+      "expected": "Reject a non-text application name where the form or supported API permits this input."
+    },
+    {
+      "id": "WF01-MISSING-HLD",
+      "metadata": "application-metadata.json",
+      "hld": null,
+      "dpia": "documents/DPIA.pdf",
+      "expected": "If HLD is mandatory, block submission and identify the missing HLD."
+    },
+    {
+      "id": "WF01-MISSING-DPIA",
+      "metadata": "application-metadata.json",
+      "hld": "documents/HLD.pdf",
+      "dpia": null,
+      "expected": "If DPIA is mandatory, block submission and identify the missing DPIA."
+    },
+    {
+      "id": "WF01-UNSUPPORTED-UPLOAD",
+      "metadata": "application-metadata.json",
+      "hld": "negative/unsupported-upload.exe",
+      "dpia": "documents/DPIA.pdf",
+      "expected": "Reject unsupported extension according to the UC3 allowlist; fixture is inert text."
+    },
+    {
+      "id": "WF01-CORRUPT-PDF",
+      "metadata": "application-metadata.json",
+      "hld": "negative/corrupt-document.pdf",
+      "dpia": "documents/DPIA.pdf",
+      "expected": "Handle malformed content according to approved UC3 rules; record actual feedback."
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "applicationId": "SYN-TRN-001",
+  "applicationName": "Training Register Demo",
+  "version": "1.0.0",
+  "description": "Synthetic internal employee training enrolment register for UC3 workflow testing.",
+  "businessPurpose": "Register employees for training and track course completion.",
+  "businessOwner": "Synthetic Learning Operations",
+  "ownerEmail": "training.owner@example.test",
+  "technicalOwner": "Synthetic Demo Engineering",
+  "environment": "Local synthetic demonstration",
+  "businessUnit": "Learning and Development Demo",
+  "dataClassification": "Synthetic personal data only",
+  "hostingLocation": "Local machine running Node.js; no cloud deployment",
+  "repositoryReference": "https://github.com/rdhepe/testrepo",
+  "dataFields": [
+    { "name": "employeeId", "personal": true, "purpose": "Identify an employee's enrolment", "example": "SYN-EMP-001" },
+    { "name": "employeeName", "personal": true, "purpose": "Identify the learner on the training register", "example": "Synthetic Learner One" },
+    { "name": "workEmail", "personal": true, "purpose": "Record the learner's work contact", "example": "learner.one@example.test" },
+    { "name": "courseCode", "personal": false, "purpose": "Identify the training course", "example": "DEMO-SAFETY-101" },
+    { "name": "completionStatus", "personal": false, "purpose": "Track training progress linked to the employee", "example": "enrolled" }
+  ],
+  "enrolments": [
+    { "employeeId": "SYN-EMP-001", "employeeName": "Synthetic Learner One", "workEmail": "learner.one@example.test", "courseCode": "DEMO-SAFETY-101", "completionStatus": "enrolled" },
+    { "employeeId": "SYN-EMP-002", "employeeName": "Synthetic Learner Two", "workEmail": "learner.two@example.test", "courseCode": "DEMO-PRIVACY-101", "completionStatus": "completed" }
+  ]
+}

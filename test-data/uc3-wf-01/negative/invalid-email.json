@@ -1,0 +1,15 @@
+{
+  "applicationId": "SYN-TRN-001",
+  "applicationName": "Training Register Demo",
+  "version": "1.0.0",
+  "description": "Synthetic internal employee training enrolment register for UC3 workflow testing.",
+  "businessPurpose": "Register employees for training and track course completion.",
+  "businessOwner": "Synthetic Learning Operations",
+  "ownerEmail": "not-an-email",
+  "technicalOwner": "Synthetic Demo Engineering",
+  "environment": "Local synthetic demonstration",
+  "businessUnit": "Learning and Development Demo",
+  "dataClassification": "Synthetic personal data only",
+  "hostingLocation": "Local machine running Node.js; no cloud deployment",
+  "repositoryReference": "https://github.com/rdhepe/testrepo"
+}

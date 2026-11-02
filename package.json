@@ -1,0 +1,19 @@
+{
+  "name": "uc3-training-register-fixture",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Synthetic application and input evidence for UC3-WF-01 assessment creation",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "start": "node src/server.js",
+    "test": "node --test",
+    "pack": "node scripts/build-pack.js"
+  },
+  "dependencies": {
+    "docx": "^9.14.0",
+    "pdfkit": "^0.20.2"
+  }
+}

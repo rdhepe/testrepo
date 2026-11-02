@@ -1,0 +1,72 @@
+{
+  "HLD": {
+    "title": "Training Register Demo - High-Level Design",
+    "documentId": "SYN-TRN-HLD-001",
+    "sections": [
+      {
+        "heading": "Purpose and ownership",
+        "paragraphs": [
+          "Synthetic input for UC3-WF-01. This is not a PETRONAS production application, approved enterprise design, or compliance certification.",
+          "Training Register Demo (SYN-TRN-001), version 1.0.0, registers employees for training and tracks course completion. Business owner: Synthetic Learning Operations. Technical owner: Synthetic Demo Engineering. Contact: training.owner@example.test."
+        ]
+      },
+      {
+        "heading": "Components, deployment and data flow",
+        "paragraphs": [
+          "A local HTTP client calls one Node.js HTTP service implemented in src/server.js. The service binds to 127.0.0.1, port 3100 by default; PORT can override the port. No frontend, database server, cloud resource, identity provider, or external integration is implemented.",
+          "Data flow: local HTTP client -> Node.js API -> in-memory enrolment array -> JSON response to client. fixtures/application.json supplies metadata and two synthetic seed records at startup. Runtime records are not written to disk and are lost on restart. The seed JSON file remains unchanged. No infrastructure-as-code deployment is supplied."
+        ]
+      },
+      {
+        "heading": "API and data contract",
+        "paragraphs": [
+          "GET /health returns health and application ID. GET /api/application returns metadata and declared data fields. GET /api/enrolments lists records. POST /api/enrolments validates and adds a record, returning HTTP 201 and a generated id UUID. Seed records have no generated id.",
+          "POST accepts only employeeId, employeeName, workEmail, courseCode and completionStatus. All are required non-empty strings with a maximum length of 160 characters. workEmail must have email syntax. completionStatus is enrolled or completed. Unknown fields are rejected. The request size limit is 16 KiB.",
+          "Invalid input returns HTTP 400, unsupported content type 415, oversized input 413, and unknown routes 404. No passwords, national IDs, IP addresses, or authentication tokens are stored in enrolment records."
+        ]
+      },
+      {
+        "heading": "Trust boundary and limitations",
+        "paragraphs": [
+          "The local machine is the deployment boundary. Loopback binding limits network exposure but does not authenticate local clients. HTTP is not TLS protected. There is no authentication, authorization, MFA, audit trail, encryption-at-rest mechanism, automated retention, backup or recovery.",
+          "Use synthetic records only. Do not expose the service publicly or store real personal data. These limitations are intentional and are not claims of passing other UC3 privacy or security controls."
+        ]
+      }
+    ]
+  },
+  "DPIA": {
+    "title": "Training Register Demo - Data Protection Impact Assessment",
+    "documentId": "SYN-TRN-DPIA-001",
+    "sections": [
+      {
+        "heading": "Context and processing purpose",
+        "paragraphs": [
+          "Synthetic draft DPIA, version 1.0.0, for UC3-WF-01 input testing only. No privacy authority or PETRONAS stakeholder approval is asserted. This is not legal advice or evidence of production compliance.",
+          "Application: Training Register Demo, SYN-TRN-001. Purpose: register employees for training and track course completion. Business owner: Synthetic Learning Operations. Contact: training.owner@example.test. All identities and records are fabricated."
+        ]
+      },
+      {
+        "heading": "Personal data inventory and necessity",
+        "paragraphs": [
+          "Data subjects represent fictional employees. employeeId identifies an employee's enrolment, employeeName identifies the learner, and workEmail records the learner's work contact. courseCode identifies a course, and completionStatus records progress. Course and progress fields become personal information when linked to an employee.",
+          "POST /api/enrolments collects the five declared fields. New records also contain an application-generated id UUID, an indirect identifier when associated with an employee. The fixture ownerEmail is a synthetic business contact, not a collected learner field. The system does not send email or share records with external services.",
+          "GET /api/enrolments returns records to any local client. There are no consent screens or data-subject-rights workflows. No actual legal basis, consent, or employee approval is asserted. Production use would require a separately reviewed lawful basis and privacy notice."
+        ]
+      },
+      {
+        "heading": "Storage, retention and recipients",
+        "paragraphs": [
+          "Two synthetic records are stored in fixtures/application.json. Runtime records are held in process memory on the local machine and are lost on restart. The seed file persists until manually removed. No automated retention or deletion mechanism, backup, or access-control enforcement is implemented.",
+          "No cloud deployment or cross-border transfer is implemented. Publishing the repository discloses its synthetic records and documents according to GitHub repository visibility. Do not publish the original BRD or workbooks without authorization. The local tester is the only intended recipient of API records."
+        ]
+      },
+      {
+        "heading": "Risks and decision",
+        "paragraphs": [
+          "Unauthenticated local clients can read and add records. Cleartext HTTP and unencrypted seed JSON are unsuitable for real personal data. Test restrictions are loopback-only binding and synthetic identities only. Runtime data loss on restart is accepted for this disposable fixture, not as an approved production exception.",
+          "Disposition: synthetic input preparation only, not production approved. Assessor authorization, repository approval, supported document types, metadata rules and upload limits must be confirmed in the actual UC3 environment."
+        ]
+      }
+    ]
+  }
+}

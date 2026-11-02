@@ -1,0 +1,16 @@
+[
+  {
+    "employeeId": "SYN-EMP-001",
+    "employeeName": "Synthetic Learner One",
+    "workEmail": "learner.one@example.test",
+    "courseCode": "DEMO-SAFETY-101",
+    "completionStatus": "enrolled"
+  },
+  {
+    "employeeId": "SYN-EMP-002",
+    "employeeName": "Synthetic Learner Two",
+    "workEmail": "learner.two@example.test",
+    "courseCode": "DEMO-PRIVACY-101",
+    "completionStatus": "completed"
+  }
+]

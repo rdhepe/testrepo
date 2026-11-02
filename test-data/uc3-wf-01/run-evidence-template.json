@@ -1,0 +1,219 @@
+{
+  "testCaseId": "UC3-WF-01",
+  "runId": null,
+  "assessor": null,
+  "uc3Environment": null,
+  "approvedRulesReference": null,
+  "repositoryApprovalReference": null,
+  "assessmentId": null,
+  "steps": [
+    {
+      "step": 1,
+      "action": "Confirm approved metadata, documents and repository rules",
+      "actualResult": null,
+      "status": "NOT_RUN",
+      "evidenceReference": null,
+      "defectReference": null
+    },
+    {
+      "step": 2,
+      "action": "Confirm authorized UC3 assessor and sample application",
+      "actualResult": null,
+      "status": "NOT_RUN",
+      "evidenceReference": null,
+      "defectReference": null
+    },
+    {
+      "step": 3,
+      "action": "Prepare metadata, HLD, DPIA and approved repository",
+      "actualResult": null,
+      "status": "NOT_RUN",
+      "evidenceReference": null,
+      "defectReference": null
+    },
+    {
+      "step": 4,
+      "action": "Sign in to UC3 with your own authorized account",
+      "actualResult": null,
+      "status": "NOT_RUN",
+      "evidenceReference": null,
+      "defectReference": null
+    },
+    {
+      "step": 5,
+      "action": "Open assessment management and create assessment",
+      "actualResult": null,
+      "status": "NOT_RUN",
+      "evidenceReference": null,
+      "defectReference": null
+    },
+    {
+      "step": 6,
+      "action": "Verify new assessment form",
+      "actualResult": null,
+      "status": "NOT_RUN",
+      "evidenceReference": null,
+      "defectReference": null
+    },
+    {
+      "step": 7,
+      "action": "Enter mapped application metadata",
+      "actualResult": null,
+      "status": "NOT_RUN",
+      "evidenceReference": null,
+      "defectReference": null
+    },
+    {
+      "step": 8,
+      "action": "Attach HLD",
+      "actualResult": null,
+      "status": "NOT_RUN",
+      "evidenceReference": null,
+      "defectReference": null
+    },
+    {
+      "step": 9,
+      "action": "Attach DPIA",
+      "actualResult": null,
+      "status": "NOT_RUN",
+      "evidenceReference": null,
+      "defectReference": null
+    },
+    {
+      "step": 10,
+      "action": "Enter approved repository reference",
+      "actualResult": null,
+      "status": "NOT_RUN",
+      "evidenceReference": null,
+      "defectReference": null
+    },
+    {
+      "step": 11,
+      "action": "Review inputs before submission",
+      "actualResult": null,
+      "status": "NOT_RUN",
+      "evidenceReference": null,
+      "defectReference": null
+    },
+    {
+      "step": 12,
+      "action": "Submit assessment",
+      "actualResult": null,
+      "status": "NOT_RUN",
+      "evidenceReference": null,
+      "defectReference": null
+    },
+    {
+      "step": 13,
+      "action": "Capture success response and unique assessment ID",
+      "actualResult": null,
+      "status": "NOT_RUN",
+      "evidenceReference": null,
+      "defectReference": null
+    },
+    {
+      "step": 14,
+      "action": "Open newly created assessment",
+      "actualResult": null,
+      "status": "NOT_RUN",
+      "evidenceReference": null,
+      "defectReference": null
+    },
+    {
+      "step": 15,
+      "action": "Compare saved metadata with entered values",
+      "actualResult": null,
+      "status": "NOT_RUN",
+      "evidenceReference": null,
+      "defectReference": null
+    },
+    {
+      "step": 16,
+      "action": "Verify HLD and DPIA linked to this assessment",
+      "actualResult": null,
+      "status": "NOT_RUN",
+      "evidenceReference": null,
+      "defectReference": null
+    },
+    {
+      "step": 17,
+      "action": "Open both attachments and compare with fixture documents",
+      "actualResult": null,
+      "status": "NOT_RUN",
+      "evidenceReference": null,
+      "defectReference": null
+    },
+    {
+      "step": 18,
+      "action": "Compare saved repository with submitted value",
+      "actualResult": null,
+      "status": "NOT_RUN",
+      "evidenceReference": null,
+      "defectReference": null
+    },
+    {
+      "step": 19,
+      "action": "Start a separate assessment with one mandatory input missing",
+      "actualResult": null,
+      "status": "NOT_RUN",
+      "evidenceReference": null,
+      "defectReference": null
+    },
+    {
+      "step": 20,
+      "action": "Submit and record validation; verify no assessment created",
+      "actualResult": null,
+      "status": "NOT_RUN",
+      "evidenceReference": null,
+      "defectReference": null
+    },
+    {
+      "step": 21,
+      "action": "Try invalid metadata, unsupported document and invalid repository separately",
+      "actualResult": null,
+      "status": "NOT_RUN",
+      "evidenceReference": null,
+      "defectReference": null
+    },
+    {
+      "step": 22,
+      "action": "Submit invalid variants and capture feedback",
+      "actualResult": null,
+      "status": "NOT_RUN",
+      "evidenceReference": null,
+      "defectReference": null
+    },
+    {
+      "step": 23,
+      "action": "Reopen or refresh the successful assessment",
+      "actualResult": null,
+      "status": "NOT_RUN",
+      "evidenceReference": null,
+      "defectReference": null
+    },
+    {
+      "step": 24,
+      "action": "Recheck metadata, attachments and repository after refresh",
+      "actualResult": null,
+      "status": "NOT_RUN",
+      "evidenceReference": null,
+      "defectReference": null
+    },
+    {
+      "step": 25,
+      "action": "Capture assessment details, messages and document references",
+      "actualResult": null,
+      "status": "NOT_RUN",
+      "evidenceReference": null,
+      "defectReference": null
+    },
+    {
+      "step": 26,
+      "action": "Record defects with expected versus actual results",
+      "actualResult": null,
+      "status": "NOT_RUN",
+      "evidenceReference": null,
+      "defectReference": null
+    }
+  ]
+}
