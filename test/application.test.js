@@ -4,6 +4,35 @@ import { readFile } from 'node:fs/promises';
 import { test } from 'node:test';
 import { application, createApplication, enrolmentFields } from '../src/server.js';
 
+test('TC-DS-06 deliberately reads and creates enrolments without console audit events', async (context) => {
+  const logMethods = ['log', 'info', 'warn', 'error', 'debug'];
+  const logMocks = logMethods.map((method) => context.mock.method(console, method, () => {}));
+  const server = createApplication();
+  server.listen(0, '127.0.0.1');
+  await once(server, 'listening');
+  const base = `http://127.0.0.1:${server.address().port}`;
+  try {
+    const initial = await fetch(`${base}/api/enrolments`);
+    assert.equal(initial.status, 200);
+    assert.deepEqual(await initial.json(), application.enrolments);
+    const created = await fetch(`${base}/api/enrolments`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ...application.enrolments[0], employeeId: 'SYN-AUDIT-001' })
+    });
+    assert.equal(created.status, 201);
+    const record = await created.json();
+    assert.ok(record.id);
+    const records = await (await fetch(`${base}/api/enrolments`)).json();
+    assert.deepEqual(records.find((stored) => stored.id === record.id), record);
+    for (const method of ['PUT', 'PATCH', 'DELETE']) {
+      assert.equal((await fetch(`${base}/api/enrolments`, { method })).status, 404);
+    }
+    for (const logMock of logMocks) assert.equal(logMock.mock.callCount(), 0);
+  } finally {
+    await new Promise((resolve) => server.close(resolve));
+  }
+});
+
 test('TC-DS-05 deliberately exposes enrolments without identity-provider authentication', async () => {
   const server = createApplication();
   server.listen(0, '127.0.0.1');

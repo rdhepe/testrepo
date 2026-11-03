@@ -14,23 +14,23 @@
   "documents": [
     {
       "path": "documents/HLD.pdf",
-      "bytes": 6425,
-      "sha256": "18794390037f35a4db4dc6e642f6795571189571eac452ea18343039168f1752"
+      "bytes": 7446,
+      "sha256": "25b42e3d5f292efd46adef781fad3afef61c953d182ecf43dd4dc3b03dfaa28e"
     },
     {
       "path": "documents/HLD.docx",
-      "bytes": 12588,
-      "sha256": "9f8752c7a21074a9607d288fd24b946ad2fb2499f77e2ac712b395e8a9dbc136"
+      "bytes": 13215,
+      "sha256": "18e8d5fce814371597b4b0993d5d42748d8980e4d7e31396c4d094ae9b382683"
     },
     {
       "path": "documents/DPIA.pdf",
-      "bytes": 13388,
-      "sha256": "abccd473f1a784b48fedc50b26bc6eff787652d0de7b47445a384025ef20707a"
+      "bytes": 15114,
+      "sha256": "d6f0da09018fe966251224800f718059ef593e2a88d482aeb13f26d02a9eb2c8"
     },
     {
       "path": "documents/DPIA.docx",
-      "bytes": 13274,
-      "sha256": "289fbc4d5b3d6d6fa3a185cb5596881995897ab96b3013d01f9064b77a224fd0"
+      "bytes": 13763,
+      "sha256": "6f3c562b4c9920a2745851b09ee3eb999dc5c9a2405b1b8725ab6094fb5b7273"
     }
   ]
 }

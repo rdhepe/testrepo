@@ -132,6 +132,18 @@
       "facts": [
         { "id": "REQ-AUTH-01", "kind": "controlRequirement", "status": "REQUIRED_NOT_VERIFIED", "value": "Internal application enrolment reads and writes require Microsoft Entra authentication with MFA", "quote": "Access to GET and POST /api/enrolments shall require authentication through Microsoft Entra with MFA before records can be read or created." }
       ]
+    },
+    {
+      "heading": "S11 - Sensitive-data audit logging requirement",
+      "paragraphs": [
+        "Control TC-DS-06: Reads through GET /api/enrolments and creation through POST /api/enrolments shall produce audit events containing authenticated user identity, UTC timestamp, action, record reference and outcome. Enrolment records are designated protected sensitive data for this synthetic control, not special-category personal data.",
+        "Record the attempt before access or mutation and its outcome when known, linked by a correlation identifier. A list-read event shall reference the collection and returned records; a create event shall reference the generated id. Seed records have no id and require pseudonymous stable references. Audit events shall not contain full request or response payloads, learner names, email addresses, credentials or tokens.",
+        "The supplied application deliberately has no read/create audit events or audit sink. Its startup URL message is not an audit trail. The expected verdict is Non-Compliant for missing audit logging. This is a required control, not implemented logging. Authentication is absent as tracked separately by TC-DS-05; client-supplied identity is not verified identity. Only read and create are implemented, not update or delete.",
+        "Compare the handlers in src/server.js against this requirement using application code analysis. A generic log statement alone does not prove required metadata, operation coverage or recorded outcome. GitHub-only inspection cannot establish live log delivery, retention, tamper protection or logging supplied outside the repository. Actual UC3 execution and SME approval remain pending."
+      ],
+      "facts": [
+        { "id": "REQ-AUDIT-01", "kind": "controlRequirement", "status": "REQUIRED_NOT_VERIFIED", "value": "Enrolment read/create audit events with authenticated user identity, UTC timestamp, action, record reference and outcome", "quote": "Control TC-DS-06: Reads through GET /api/enrolments and creation through POST /api/enrolments shall produce audit events containing authenticated user identity, UTC timestamp, action, record reference and outcome." }
+      ]
     }
   ]
 }

@@ -6,7 +6,7 @@
       {
         "heading": "Purpose and ownership",
         "paragraphs": [
-          "Synthetic input for UC3 assessment scenarios, including UC3-WF-01, TC-DS-01, TC-DS-03 and TC-DS-05. This is not a PETRONAS production application, approved enterprise design, or compliance certification.",
+          "Synthetic input for UC3 assessment scenarios, including UC3-WF-01, TC-DS-01, TC-DS-03, TC-DS-05 and TC-DS-06. This is not a PETRONAS production application, approved enterprise design, or compliance certification.",
           "Training Register Demo (SYN-TRN-001), version 1.0.0, registers employees for training and tracks course completion. Business owner: Synthetic Learning Operations. Technical owner: Synthetic Demo Engineering. Contact: training.owner@example.test."
         ]
       },
@@ -48,6 +48,15 @@
           "Control TC-DS-05: Training Register Demo is classified as an internal employee application for this synthetic assessment. Employee enrolment records are designated protected sensitive data for this control, not a claim that they are special-category personal data. Access to GET and POST /api/enrolments shall require authentication through Microsoft Entra with MFA before records can be read or created.",
           "The supplied local application deliberately has no identity-provider integration, token validation or authentication gate on these routes. Anonymous GET returns records with HTTP 200; anonymous valid POST returns HTTP 201; a request bearing an invalid token can still read records. Loopback binding is not authentication. Expect a Non-Compliant finding for access without the required approved identity provider.",
           "The worksheet assumes MFA is enabled when an identity provider is used. Record that as an assessment assumption, not proof of actual enforcement. Here no provider protects the routes, so that assumption cannot satisfy the control. Repository review cannot perform login challenges or establish effective tenant MFA policy. Do not claim that a real tenant has MFA disabled. External-application provider alternatives are outside this internal fixture's scope."
+        ]
+      },
+      {
+        "heading": "TC-DS-06 sensitive-data audit logging requirement",
+        "paragraphs": [
+          "Control TC-DS-06: Reads through GET /api/enrolments and creation through POST /api/enrolments shall produce audit events containing authenticated user identity, UTC timestamp, action, record reference and outcome. Enrolment records are designated protected sensitive data for this synthetic control, not special-category personal data.",
+          "A list-read event shall identify the enrolment collection and returned record references; a create event shall identify the generated record id. Seed records have no id, so their audit references shall be pseudonymous stable identifiers rather than full personal-data payloads. Record the attempt before access or mutation and its outcome when known, linked by a correlation identifier. Audit events shall not contain full request or response payloads, learner names, email addresses, credentials or tokens.",
+          "The existing GET handler directly returns enrolments, and the POST handler calls enrolments.push(record) and returns HTTP 201 without an audit event or audit sink. The startup console.log reports only the listening URL and is not an audit trail. The expected verdict is Non-Compliant for missing read/create audit logging. Authentication is also absent as tracked separately by TC-DS-05; request-supplied identity is not authenticated identity.",
+          "Only read and create are implemented; update and delete are outside this fixture's scope. Review src/server.js and its dependencies for logging calls and their control-flow relationship to the operations. A generic console message or a pre-operation message alone does not establish a complete audit event or recorded outcome. GitHub-only analysis cannot establish live log delivery, retention, tamper protection or external infrastructure logging."
         ]
       }
     ]

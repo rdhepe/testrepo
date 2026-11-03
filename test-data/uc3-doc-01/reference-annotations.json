@@ -323,6 +323,16 @@
       "section": "S10 - Identity-provider and MFA requirement",
       "pdfPage": 11,
       "sourceQuote": "Access to GET and POST /api/enrolments shall require authentication through Microsoft Entra with MFA before records can be read or created."
+    },
+    {
+      "id": "REQ-AUDIT-01",
+      "kind": "controlRequirement",
+      "status": "REQUIRED_NOT_VERIFIED",
+      "value": "Enrolment read/create audit events with authenticated user identity, UTC timestamp, action, record reference and outcome",
+      "quote": "Control TC-DS-06: Reads through GET /api/enrolments and creation through POST /api/enrolments shall produce audit events containing authenticated user identity, UTC timestamp, action, record reference and outcome.",
+      "section": "S11 - Sensitive-data audit logging requirement",
+      "pdfPage": 12,
+      "sourceQuote": "Control TC-DS-06: Reads through GET /api/enrolments and creation through POST /api/enrolments shall produce audit events containing authenticated user identity, UTC timestamp, action, record reference and outcome."
     }
   ]
 }

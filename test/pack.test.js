@@ -7,6 +7,27 @@ import { test } from 'node:test';
 import { buildPack, validateRepository } from '../scripts/build-pack.js';
 import { buildDocPack } from '../scripts/build-doc-pack.js';
 
+test('TC-DS-06 shares read/create audit requirements in appended DPIA section S11', async () => {
+  const { HLD } = JSON.parse(await readFile(new URL('../fixtures/documents.json', import.meta.url), 'utf8'));
+  const dpia = JSON.parse(await readFile(new URL('../fixtures/doc-01.json', import.meta.url), 'utf8'));
+  const design = HLD.sections.find((section) => section.heading.startsWith('TC-DS-06'));
+  const section = dpia.sections[10];
+  assert.equal(section.heading, 'S11 - Sensitive-data audit logging requirement');
+  assert.equal(dpia.sections.length, 11);
+  const requirement = section.facts[0];
+  assert.equal(requirement.id, 'REQ-AUDIT-01');
+  assert.equal(requirement.kind, 'controlRequirement');
+  assert.equal(requirement.status, 'REQUIRED_NOT_VERIFIED');
+  for (const paragraphs of [design.paragraphs, section.paragraphs]) {
+    const text = paragraphs.join(' ');
+    assert.ok(text.includes(requirement.quote));
+    assert.match(text, /authenticated user identity, UTC timestamp, action, record reference and outcome/);
+    assert.match(text, /shall not contain full request or response payloads/);
+    assert.match(text, /Non-Compliant/);
+    assert.match(text, /Only read and create are implemented/);
+  }
+});
+
 test('TC-DS-03 configures restricted managed key storage but omits automatic rotation', async () => {
   const template = JSON.parse(await readFile(new URL('../infra/tc-ds-03-key.json', import.meta.url), 'utf8'));
   const key = template.Resources.EnrolmentKey;
@@ -110,6 +131,11 @@ test('DOC-01 pack has source-grounded annotations, stable PDF pages and 25 pendi
     assert.equal(consent.pdfPage, 9);
     assert.match(consent.sourceQuote, /user consent is required before employee enrolment information is submitted and stored/);
     assert.match(consent.sourceQuote, /block storage when that consent is absent/);
+    const audit = annotations.find((fact) => fact.id === 'REQ-AUDIT-01');
+    assert.equal(audit.kind, 'controlRequirement');
+    assert.equal(audit.status, 'REQUIRED_NOT_VERIFIED');
+    assert.equal(audit.pdfPage, 12);
+    assert.match(audit.sourceQuote, /GET \/api\/enrolments and creation through POST \/api\/enrolments/);
     for (const document of manifest.documents) {
       const buffer = await readFile(join(output, document.path));
       assert.equal(createHash('sha256').update(buffer).digest('hex'), document.sha256);

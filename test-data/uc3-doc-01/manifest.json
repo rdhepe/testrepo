@@ -9,16 +9,16 @@
   "documents": [
     {
       "path": "../uc3-wf-01/documents/DPIA.pdf",
-      "bytes": 13388,
-      "sha256": "abccd473f1a784b48fedc50b26bc6eff787652d0de7b47445a384025ef20707a"
+      "bytes": 15114,
+      "sha256": "d6f0da09018fe966251224800f718059ef593e2a88d482aeb13f26d02a9eb2c8"
     },
     {
       "path": "../uc3-wf-01/documents/DPIA.docx",
-      "bytes": 13274,
-      "sha256": "289fbc4d5b3d6d6fa3a185cb5596881995897ab96b3013d01f9064b77a224fd0"
+      "bytes": 13763,
+      "sha256": "6f3c562b4c9920a2745851b09ee3eb999dc5c9a2405b1b8725ab6094fb5b7273"
     }
   ],
-  "annotationCount": 32,
+  "annotationCount": 33,
   "externalChecksRequired": [
     "SME reviews and approves the exact DPIA and reference annotations",
     "Confirm allowed upload formats and sizes in UC3",
