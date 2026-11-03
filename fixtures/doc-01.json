@@ -1,12 +1,12 @@
 {
-  "title": "Training Register Demo - DPIA Extraction Fixture",
+  "title": "Training Register Demo - Data Protection Impact Assessment",
   "documentId": "SYN-TRN-DPIA-DOC01-001",
   "paginated": true,
   "sections": [
     {
       "heading": "S1 - Context and data subjects",
       "paragraphs": [
-        "Synthetic draft for UC3-DOC-01. SME approval is pending. No enterprise approval, legal basis or production compliance is asserted.",
+        "Shared synthetic draft for UC3-WF-01, UC3-DOC-01 and the implemented privacy-control test cases. SME approval is pending. No enterprise approval, legal basis or production compliance is asserted.",
         "Training Register Demo (SYN-TRN-001) registers employees for training and tracks course completion. Data subjects are fictional employees enrolled as learners. All records and contacts are fabricated."
       ],
       "facts": [
@@ -97,6 +97,17 @@
       ],
       "facts": [
         { "id": "REQ-PS-01", "kind": "controlRequirement", "status": "REQUIRED_NOT_VERIFIED", "value": "Publicly available privacy statement linked from the homepage before data submission, readable without authentication", "quote": "Control TC-PD-03: A privacy statement shall be publicly available and easily accessible to users. The Training Register Demo homepage shall provide a clearly identifiable privacy statement link before users submit employee enrolment data. Users shall be able to open and read the statement without authentication or other access restrictions." }
+      ]
+    },
+    {
+      "heading": "S8 - Consent requirement",
+      "paragraphs": [
+        "Control TC-PD-02: Personal data shall be collected only with user consent. For this synthetic assessment scenario, user consent is required before employee enrolment information is submitted and stored. The registration frontend shall collect an affirmative consent choice before submission, and the application shall block storage when that consent is absent.",
+        "This requirement is a synthetic assessment assumption, not a determination that employee consent is an appropriate lawful basis in a real deployment. No actual legal basis, valid consent or employee approval is asserted. The requirement does not assert that the supplied application implements consent collection or enforcement.",
+        "Assess public/index.html and public/app.js for consent collection first. Consider backend findings in src/server.js only if no frontend findings exist. Use this DPIA to establish whether consent is required; database consent-record requirements are outside this assessment scope. Repository inspection cannot establish whether a person actually provided valid consent before every data write; that remains a manual verification."
+      ],
+      "facts": [
+        { "id": "REQ-CON-01", "kind": "controlRequirement", "status": "REQUIRED_NOT_VERIFIED", "value": "User consent required before enrolment submission and storage; block storage without consent", "quote": "Control TC-PD-02: Personal data shall be collected only with user consent. For this synthetic assessment scenario, user consent is required before employee enrolment information is submitted and stored. The registration frontend shall collect an affirmative consent choice before submission, and the application shall block storage when that consent is absent." }
       ]
     }
   ]

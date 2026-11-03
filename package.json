@@ -11,6 +11,7 @@
     "start": "node src/server.js",
     "test": "node --test",
     "pack": "node scripts/build-pack.js",
+    "pack:all": "node scripts/build-doc-pack.js",
     "pack:doc": "node scripts/build-doc-pack.js"
   },
   "dependencies": {

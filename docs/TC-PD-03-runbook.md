@@ -17,9 +17,9 @@ The existing undeclared `homeAddress` collection for TC-PD-01 remains unchanged.
 ## Inputs and source evidence
 
 * Repository: <https://github.com/rdhepe/testrepo>
-* Preferred upload: [DOC-01 DPIA.pdf](../test-data/uc3-doc-01/documents/DPIA.pdf), section S7, page 8
-* Word alternative: [DOC-01 DPIA.docx](../test-data/uc3-doc-01/documents/DPIA.docx), section S7
-* WF-01 alternative: [WF-01 DPIA.pdf](../test-data/uc3-wf-01/documents/DPIA.pdf), section Privacy statement requirement (TC-PD-03)
+* Shared upload: [DPIA.pdf](../test-data/uc3-wf-01/documents/DPIA.pdf), section S7, page 8
+* Word alternative: [DPIA.docx](../test-data/uc3-wf-01/documents/DPIA.docx), section S7
+* Shared design: [HLD.pdf](../test-data/uc3-wf-01/documents/HLD.pdf)
 * Requirement source: [fixtures/doc-01.json](../fixtures/doc-01.json), annotation `REQ-PS-01`
 * Homepage: [public/index.html](../public/index.html)
 * Browser behavior: [public/app.js](../public/app.js)
@@ -56,8 +56,7 @@ must be recorded rather than assumed.
 
 ```powershell
 npm test
-npm run pack:doc
-npm run pack -- --repository https://github.com/rdhepe/testrepo
+npm run pack:all
 npm start
 ```
 

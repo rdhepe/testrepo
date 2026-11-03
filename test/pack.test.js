@@ -17,6 +17,7 @@ test('DOC-01 pack has source-grounded annotations, stable PDF pages and 25 pendi
     const { annotations } = await json('reference-annotations.json');
     assert.equal(manifest.approvalStatus, 'PENDING_SME_REVIEW');
     assert.equal(manifest.uc3ExecutionStatus, 'NOT_RUN');
+    assert.ok(manifest.documents.every((document) => document.path.startsWith('assessment/documents/DPIA.')));
     assert.equal(new Set(annotations.map((fact) => fact.id)).size, annotations.length);
     for (const fact of annotations) {
       const sectionIndex = source.sections.findIndex((section) => section.heading === fact.section);
@@ -35,6 +36,12 @@ test('DOC-01 pack has source-grounded annotations, stable PDF pages and 25 pendi
     assert.equal(requirement.pdfPage, 8);
     assert.match(requirement.sourceQuote, /privacy statement shall be publicly available/);
     assert.match(requirement.sourceQuote, /without authentication/);
+    const consent = annotations.find((fact) => fact.id === 'REQ-CON-01');
+    assert.equal(consent.kind, 'controlRequirement');
+    assert.equal(consent.status, 'REQUIRED_NOT_VERIFIED');
+    assert.equal(consent.pdfPage, 9);
+    assert.match(consent.sourceQuote, /user consent is required before employee enrolment information is submitted and stored/);
+    assert.match(consent.sourceQuote, /block storage when that consent is absent/);
     for (const document of manifest.documents) {
       const buffer = await readFile(join(output, document.path));
       assert.equal(createHash('sha256').update(buffer).digest('hex'), document.sha256);
@@ -56,10 +63,13 @@ test('DOC-01 pack has source-grounded annotations, stable PDF pages and 25 pendi
 test('UC3 pack contains genuine documents, negative fixtures and 26 unexecuted evidence steps', async () => {
   const output = await mkdtemp(join(tmpdir(), 'uc3-wf01-'));
   try {
-    const source = JSON.parse(await readFile(new URL('../fixtures/documents.json', import.meta.url), 'utf8'));
-    const requirement = source.DPIA.sections.find((section) => section.heading.includes('TC-PD-03'));
+    const source = JSON.parse(await readFile(new URL('../fixtures/doc-01.json', import.meta.url), 'utf8'));
+    const requirement = source.sections.find((section) => section.heading.includes('Privacy statement requirement'));
     assert.match(requirement.paragraphs.join(' '), /privacy statement shall be publicly available/);
     assert.match(requirement.paragraphs.join(' '), /without authentication/);
+    const consent = source.sections.find((section) => section.heading.includes('Consent requirement'));
+    assert.match(consent.paragraphs.join(' '), /user consent is required before employee enrolment information is submitted and stored/);
+    assert.match(consent.paragraphs.join(' '), /block storage when that consent is absent/);
     const { manifest } = await buildPack({ output });
     const json = async (path) => JSON.parse(await readFile(join(output, path), 'utf8'));
     assert.equal(manifest.repositoryConfigured, false);
@@ -71,6 +81,7 @@ test('UC3 pack contains genuine documents, negative fixtures and 26 unexecuted e
       assert.equal(buffer.length, document.bytes);
       assert.ok(buffer.length > 1000);
       assert.equal(buffer.subarray(0, document.path.endsWith('.pdf') ? 5 : 2).toString(), document.path.endsWith('.pdf') ? '%PDF-' : 'PK');
+      if (document.path === 'documents/DPIA.pdf') assert.equal([...buffer.toString('latin1').matchAll(/\/Type \/Page\b/g)].length, source.sections.length + 1);
     }
     const evidence = await json('run-evidence-template.json');
     assert.equal(evidence.steps.length, 26);

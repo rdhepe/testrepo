@@ -15,12 +15,15 @@ No approval is manufactured by this repository.
 
 ## Inputs and comparison
 
-Upload [DPIA.pdf](../test-data/uc3-doc-01/documents/DPIA.pdf), or its Word
+Upload the shared [DPIA.pdf](../test-data/uc3-wf-01/documents/DPIA.pdf), or its Word
 alternative, and point UC3 at the repository revision containing the changed
 [src/server.js](../src/server.js). Do not use a previous main revision that still
 rejects the extra field. Do not upload this runbook or the tests as the DPIA.
 
-The DPIA intentionally remains the original baseline. Its S2 (PDF page 3) declares
+Use this same DPIA and the shared [HLD.pdf](../test-data/uc3-wf-01/documents/HLD.pdf)
+for every implemented test case. Regenerate all inputs with `npm run pack:all`.
+
+The DPIA inventory intentionally remains the original baseline. Its S2 (PDF page 3) declares
 `employeeId`, `employeeName`, `workEmail`, `courseCode`, `completionStatus` and the
 generated `id`. S3 (page 4) ties these to training registration, work contact,
 completion tracking and record identification. S4 (page 5) says additional client

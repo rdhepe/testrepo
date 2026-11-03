@@ -1,8 +1,7 @@
-import { mkdir, readFile, writeFile } from 'node:fs/promises';
+import { mkdir, readFile, writeFile, rm } from 'node:fs/promises';
 import { resolve, join } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
-import { createHash } from 'node:crypto';
-import { renderPdf, renderWord, validateRepository } from './build-pack.js';
+import { buildPack, validateRepository } from './build-pack.js';
 
 const root = new URL('../', import.meta.url);
 const application = JSON.parse(await readFile(new URL('fixtures/application.json', root), 'utf8'));
@@ -39,15 +38,14 @@ const checks = [
 export async function buildDocPack({ output, repository = application.repositoryReference } = {}) {
   const reference = validateRepository(repository);
   const destination = resolve(output ?? fileURLToPath(new URL('test-data/uc3-doc-01', root)));
-  await mkdir(join(destination, 'documents'), { recursive: true });
+  await mkdir(destination, { recursive: true });
   const writeJson = (name, value) => writeFile(join(destination, name), `${JSON.stringify(value, null, 2)}\n`);
-  const files = [];
-  for (const [extension, render] of [['pdf', renderPdf], ['docx', renderWord]]) {
-    const buffer = await render(document, reference);
-    const path = `documents/DPIA.${extension}`;
-    await writeFile(join(destination, path), buffer);
-    files.push({ path, bytes: buffer.length, sha256: createHash('sha256').update(buffer).digest('hex') });
-  }
+  const { manifest: assessment } = await buildPack({
+    output: output ? join(destination, 'assessment') : undefined, repository: reference
+  });
+  const files = assessment.documents.filter((file) => file.path.startsWith('documents/DPIA.'))
+    .map((file) => ({ ...file, path: `${output ? 'assessment' : '../uc3-wf-01'}/${file.path}` }));
+  await Promise.all(['pdf', 'docx'].map((extension) => rm(join(destination, 'documents', `DPIA.${extension}`), { force: true })));
   const annotations = document.sections.flatMap((section, index) => section.facts.map((fact) => ({
     ...fact, status: fact.status ?? 'DECLARED', section: section.heading,
     pdfPage: index + 2, sourceQuote: fact.quote

@@ -15,22 +15,22 @@
     {
       "path": "documents/HLD.pdf",
       "bytes": 3667,
-      "sha256": "66e3595f1c7ac088b0afcdae9096ccb8d88092e1a42471c2b4c47fec699b3967"
+      "sha256": "12c7332aa624657949d48ee57d093584c50367c9fb2ac092b3d9702448274ea0"
     },
     {
       "path": "documents/HLD.docx",
       "bytes": 11280,
-      "sha256": "aa1f61fc155418d906bff556859709042d85b5450c6201da2587ea663700963e"
+      "sha256": "b2adac59d0117b8846647676a7cd459b7b3340657515579f75ec714ede4c093b"
     },
     {
       "path": "documents/DPIA.pdf",
-      "bytes": 4244,
-      "sha256": "974986c5c80c69016eaa58b1db9e1524baf7a0fe23bf98ad77d6b9dfb906cf8d"
+      "bytes": 10553,
+      "sha256": "7be779ffe99f10310fb8d6d267108412b50f5be5dc43202700b0833b9e9ea7ce"
     },
     {
       "path": "documents/DPIA.docx",
-      "bytes": 11647,
-      "sha256": "d1e1878cd9c1590036abe317f6c8070029889aeedcb7eb9ef20ffaace005b9ab"
+      "bytes": 12445,
+      "sha256": "14801698e0508158b9bd1dc4526edfee61ab90e6e611eea9eb4c6232d0c1ff20"
     }
   ]
 }

@@ -32,6 +32,33 @@ test('TC-PD-03 serves a registration frontend without a privacy statement or lin
   }
 });
 
+test('TC-PD-02 deliberately submits and stores enrolment data without collecting consent', async () => {
+  const server = createApplication();
+  server.listen(0, '127.0.0.1');
+  await once(server, 'listening');
+  const base = `http://127.0.0.1:${server.address().port}`;
+  try {
+    const html = await (await fetch(base)).text();
+    assert.doesNotMatch(html, /consent|type\s*=\s*["']checkbox["']/i);
+    const source = await (await fetch(`${base}/app.js`)).text();
+    assert.doesNotMatch(source, /consent/i);
+    assert.match(source, /JSON.stringify\(Object.fromEntries\(new FormData\(form\)\)\)/);
+    const input = { ...application.enrolments[0], employeeId: 'SYN-CONSENT-001' };
+    assert.equal(Object.keys(input).some((field) => /consent/i.test(field)), false);
+    const response = await fetch(`${base}/api/enrolments`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(input)
+    });
+    assert.equal(response.status, 201);
+    const created = await response.json();
+    assert.ok(created.id);
+    const records = await (await fetch(`${base}/api/enrolments`)).json();
+    assert.deepEqual(records.find((record) => record.id === created.id), created);
+    assert.equal(records.length, application.enrolments.length + 1);
+  } finally {
+    await new Promise((resolve) => server.close(resolve));
+  }
+});
+
 test('TC-PD-01 deliberately collects and stores homeAddress outside the DPIA declaration', async () => {
   const dpia = await readFile(new URL('../fixtures/doc-01.json', import.meta.url), 'utf8');
   assert.equal(dpia.includes('homeAddress'), false);

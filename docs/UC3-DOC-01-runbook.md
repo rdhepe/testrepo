@@ -5,7 +5,7 @@ description: Prepare a synthetic DPIA and source annotations, then validate actu
 
 ## Quick capture checklist
 
-Upload [DPIA.pdf](../test-data/uc3-doc-01/documents/DPIA.pdf) to UC3, run document
+Upload the shared [DPIA.pdf](../test-data/uc3-wf-01/documents/DPIA.pdf) to UC3, run document
 analysis, and compare the extracted results with every row below. You do not need
 to start the sample API. Do not upload the reference answers or comparison files.
 If UC3 requires other assessment inputs, supply the WF-01 HLD and repository, but
@@ -33,7 +33,9 @@ check DPIA extraction against this uploaded DPIA only.
 | Missing seed retention duration | Not specified; UC3 must not invent a number of days or years | 7 |
 | Missing repository visibility | Not specified in the DPIA; UC3 must not claim public or private based on this document | 7 |
 | Future partner export | Ambiguous future proposal, not current sharing or an approved purpose; partner, fields, destination and timing are undecided | 7 |
-| Citations | Each extracted fact has a source reference that opens supporting content, not merely an unrelated page | 2-7 |
+| Privacy statement requirement | Required homepage link before submission, readable without authentication; not an assertion of implementation | 8 |
+| Consent requirement | Consent required before submission and storage for the synthetic scenario; not an assertion of implementation or valid consent | 9 |
+| Citations | Each extracted fact has a source reference that opens supporting content, not merely an unrelated page | 2-9 |
 
 Accept different wording when the meaning matches. Record a discrepancy for each
 missing expected fact, incorrect statement, invented detail or missing/incorrect
@@ -53,11 +55,12 @@ including fields, subjects, storage, processing activities and supporting citati
 This pack follows the 25 steps in the supplied test-case screenshot. It is not a
 UC3 implementation, an automated extraction result, or an SME-approved DPIA.
 
-The document describes the existing Training Register Demo API. Real personal data
-is neither required nor permitted. No new API features are necessary for this
-document-analysis test; running the sample API is optional.
+The shared DPIA contains the baseline inventory and synthetic control requirements.
+Deliberate code/document mismatches support the privacy negative tests; DOC-01
+extraction is evaluated against the uploaded document, not assumed code behavior.
+Real personal data is neither required nor permitted. Running the API is optional.
 
-1. Generate the pack with `npm run pack:doc`.
+1. Generate the shared documents and both packs with `npm run pack:all`.
 2. Ask your SME to review the exact DPIA and reference annotations for completeness
    and accuracy. Record approval and any required revisions outside the repository.
 3. If revisions are needed, update [the source fixture](../fixtures/doc-01.json),
@@ -72,10 +75,10 @@ document-analysis test; running the sample API is optional.
 
 ## Inputs and reference locations
 
-* Upload [DPIA.pdf](../test-data/uc3-doc-01/documents/DPIA.pdf), or the DOCX alternative if UC3 supports it. Use one format per run.
+* Upload [DPIA.pdf](../test-data/uc3-wf-01/documents/DPIA.pdf), or the DOCX alternative if UC3 supports it. Use one format per run.
 * Map [application-metadata.json](../test-data/uc3-doc-01/application-metadata.json) manually if an assessment is needed. This is not a UC3 import schema.
 * Keep [reference-annotations.json](../test-data/uc3-doc-01/reference-annotations.json) and [comparison-template.csv](../test-data/uc3-doc-01/comparison-template.csv) for the reviewer only. Do not upload them as extraction inputs.
-* If UC3 requires an HLD or repository to create the assessment, reuse the WF-01 inputs. For this test, count only assertions supported by the uploaded DOC-01 DPIA.
+* If UC3 requires an HLD, use the shared [HLD.pdf](../test-data/uc3-wf-01/documents/HLD.pdf). Use the same document pair across all implemented cases; count only assertions supported by the uploaded DPIA for extraction.
 
 The PDF has a cover followed by one section per page. For DOCX, use headings and
 quotes rather than assuming a fixed page number across Word renderers.
@@ -88,6 +91,8 @@ quotes rather than assuming a fixed page number across Word renderers.
 | S4 | 5 | Collection, generated ID, use, access and synthetic repository disclosure |
 | S5 | 6 | Persistent seed JSON versus volatile process memory and absent controls |
 | S6 | 7 | Three unspecified details and an ambiguous future proposal |
+| S7 | 8 | Required user-facing privacy statement, not an implementation claim |
+| S8 | 9 | Synthetic consent prerequisite, not proof of actual valid consent |
 
 Category labels may differ if meaning is preserved. `courseCode` and
 `completionStatus` are personal information when linked to an employee, although

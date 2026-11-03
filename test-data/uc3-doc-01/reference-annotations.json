@@ -283,6 +283,16 @@
       "section": "S7 - Privacy statement requirement",
       "pdfPage": 8,
       "sourceQuote": "Control TC-PD-03: A privacy statement shall be publicly available and easily accessible to users. The Training Register Demo homepage shall provide a clearly identifiable privacy statement link before users submit employee enrolment data. Users shall be able to open and read the statement without authentication or other access restrictions."
+    },
+    {
+      "id": "REQ-CON-01",
+      "kind": "controlRequirement",
+      "status": "REQUIRED_NOT_VERIFIED",
+      "value": "User consent required before enrolment submission and storage; block storage without consent",
+      "quote": "Control TC-PD-02: Personal data shall be collected only with user consent. For this synthetic assessment scenario, user consent is required before employee enrolment information is submitted and stored. The registration frontend shall collect an affirmative consent choice before submission, and the application shall block storage when that consent is absent.",
+      "section": "S8 - Consent requirement",
+      "pdfPage": 9,
+      "sourceQuote": "Control TC-PD-02: Personal data shall be collected only with user consent. For this synthetic assessment scenario, user consent is required before employee enrolment information is submitted and stored. The registration frontend shall collect an affirmative consent choice before submission, and the application shall block storage when that consent is absent."
     }
   ]
 }

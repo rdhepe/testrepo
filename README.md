@@ -37,6 +37,32 @@ New records receive an `id` UUID and remain in memory until restart.
 > production storage, audit trail or automated retention. Do not expose this API
 > publicly or enter real personal data. Other UC3 controls are not claimed to pass.
 
+## Shared assessment PDFs
+
+Use this single pair for every implemented test case, including UC3-WF-01,
+UC3-DOC-01 and TC-PD-01, TC-PD-02 and TC-PD-03:
+
+* [DPIA.pdf](test-data/uc3-wf-01/documents/DPIA.pdf)
+* [HLD.pdf](test-data/uc3-wf-01/documents/HLD.pdf)
+
+All future test-case document updates belong in this same pair, not separate
+case-specific PDFs. The DPIA's S7 (page 8) covers the privacy statement requirement;
+S8 (page 9) covers consent. The undeclared-address mismatch remains intentional.
+Only implemented cases are covered; no retention requirement has been added.
+
+Edit [fixtures/doc-01.json](fixtures/doc-01.json) for the shared DPIA, including
+reviewer annotations, and [fixtures/documents.json](fixtures/documents.json) for
+the HLD. Regenerate both documents and all associated inputs together:
+
+```powershell
+npm run pack:all
+```
+
+This command uses the repository reference in
+[fixtures/application.json](fixtures/application.json). It also refreshes DOC-01
+annotations and both manifests. The obsolete DOC-01 document copies are removed;
+its manifest references the shared DPIA. Record new checksums after every rebuild.
+
 ## UC3 input pack
 
 The generated pack is in [test-data/uc3-wf-01](test-data/uc3-wf-01).
@@ -53,14 +79,15 @@ Confirm repository approval and UC3 access before the positive test.
 Regenerate the pack after editing its source fixtures:
 
 ```powershell
-npm run pack -- --repository https://github.com/rdhepe/testrepo
+npm run pack:all
 ```
 
 The command validates URL syntax, not repository existence, approval, visibility,
-or access. Without `--repository`, it produces an unconfigured draft. Generated
-PDF and DOCX files contain identical source content from
-[fixtures/documents.json](fixtures/documents.json). They describe the actual sample
-API, including its limitations, and are not enterprise-approved evidence.
+or access. Generated PDF and DOCX alternatives use the shared sources above.
+They contain deliberate code/document mismatches for the negative tests and are
+not enterprise-approved evidence. The lower-level `npm run pack` command remains
+available for WF-01-only generation; without `--repository`, it produces an
+unconfigured draft. Use `pack:all` for normal updates to keep all inputs aligned.
 
 Follow [docs/UC3-WF-01-runbook.md](docs/UC3-WF-01-runbook.md) to execute the test.
 Mandatory fields, upload types, and size limits must be confirmed against the real
@@ -72,17 +99,19 @@ For **UC3-DOC-01: Extract personal-data categories and purposes from DPIA**, use
 the separate [DOC-01 runbook](docs/UC3-DOC-01-runbook.md). Generate its inputs with:
 
 ```powershell
-npm run pack:doc
+npm run pack:all
 ```
 
-The [DOC-01 pack](test-data/uc3-doc-01) includes a paginated synthetic DPIA in PDF
-and DOCX, reviewer-only source annotations, a comparison worksheet, and evidence
-templates for all 25 steps. It covers fields, categories, subjects, purposes,
+The [DOC-01 pack](test-data/uc3-doc-01) references the same shared DPIA and includes
+reviewer-only source annotations, a comparison worksheet, and evidence
+templates for all 25 steps. The DPIA covers fields, categories, subjects, purposes,
 storage, processing, exclusions and deliberately unspecified or ambiguous details.
 Its data inventory describes the original five-field API baseline. The current API deliberately
 deviates from that DPIA by collecting optional `homeAddress` for TC-PD-01.
 Section S7 also requires a publicly accessible privacy statement for TC-PD-03;
 the supplied frontend deliberately omits that statement and its link.
+Section S8 requires consent before enrolment submission and storage for TC-PD-02;
+the supplied application deliberately collects and stores records without consent.
 Do not treat the DPIA as an accurate inventory of the current code.
 The default repository comes from [fixtures/application.json](fixtures/application.json);
 `--repository` and `--output` overrides are supported.
@@ -101,12 +130,25 @@ declared training purpose. The intended control assessment is **Non-Compliant**;
 UC3 correctly detecting that defect means the negative test succeeds.
 Only synthetic values may be used. This is not a production implementation.
 
+## Consent negative test
+
+For **TC-PD-02**, follow
+[docs/TC-PD-02-runbook.md](docs/TC-PD-02-runbook.md). The shared DPIA requires
+user consent before enrolment submission and storage as a synthetic assessment
+assumption. The registration frontend deliberately has no consent checkbox or
+prompt, and the API stores valid enrolments without a consent prerequisite.
+The expected source-level control verdict is **Non-Compliant**. Review the frontend
+first and consider backend findings only if no frontend findings exist. Database
+consent-record requirements are outside this assessment scope. Code inspection
+does not prove that a person actually provided valid consent before every write.
+The existing TC-PD-01 and TC-PD-03 defects are preserved.
+
 ## Privacy statement negative test
 
 For **TC-PD-03**, follow
 [docs/TC-PD-03-runbook.md](docs/TC-PD-03-runbook.md). The registration homepage
-deliberately has no privacy statement or privacy-statement link. Both generated
-DPIAs require a statement linked before submission and readable without sign-in.
+deliberately has no privacy statement or privacy-statement link. The shared
+DPIA requires a statement linked before submission and readable without sign-in.
 The expected source-level control verdict is **Non-Compliant**. Repository review
 cannot prove deployed accessibility or exclude a statement supplied elsewhere.
 The existing TC-PD-01 defect is preserved.

@@ -8,6 +8,7 @@ import { Document, HeadingLevel, Packer, Paragraph } from 'docx';
 const root = new URL('../', import.meta.url);
 const application = JSON.parse(await readFile(new URL('fixtures/application.json', root), 'utf8'));
 const documents = JSON.parse(await readFile(new URL('fixtures/documents.json', root), 'utf8'));
+documents.DPIA = JSON.parse(await readFile(new URL('fixtures/doc-01.json', root), 'utf8'));
 
 export function validateRepository(reference) {
   if (!reference) return null;

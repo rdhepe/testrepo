@@ -33,47 +33,5 @@
         ]
       }
     ]
-  },
-  "DPIA": {
-    "title": "Training Register Demo - Data Protection Impact Assessment",
-    "documentId": "SYN-TRN-DPIA-001",
-    "sections": [
-      {
-        "heading": "Context and processing purpose",
-        "paragraphs": [
-          "Synthetic draft DPIA, version 1.0.0, for UC3-WF-01 input testing only. No privacy authority or PETRONAS stakeholder approval is asserted. This is not legal advice or evidence of production compliance.",
-          "Application: Training Register Demo, SYN-TRN-001. Purpose: register employees for training and track course completion. Business owner: Synthetic Learning Operations. Contact: training.owner@example.test. All identities and records are fabricated."
-        ]
-      },
-      {
-        "heading": "Personal data inventory and necessity",
-        "paragraphs": [
-          "Data subjects represent fictional employees. employeeId identifies an employee's enrolment, employeeName identifies the learner, and workEmail records the learner's work contact. courseCode identifies a course, and completionStatus records progress. Course and progress fields become personal information when linked to an employee.",
-          "POST /api/enrolments collects the five declared fields. New records also contain an application-generated id UUID, an indirect identifier when associated with an employee. The fixture ownerEmail is a synthetic business contact, not a collected learner field. The system does not send email or share records with external services.",
-          "GET /api/enrolments returns records to any local client. There are no consent screens or data-subject-rights workflows. No actual legal basis, consent, or employee approval is asserted. Production use would require a separately reviewed lawful basis and privacy notice."
-        ]
-      },
-      {
-        "heading": "Storage, retention and recipients",
-        "paragraphs": [
-          "Two synthetic records are stored in fixtures/application.json. Runtime records are held in process memory on the local machine and are lost on restart. The seed file persists until manually removed. No automated retention or deletion mechanism, backup, or access-control enforcement is implemented.",
-          "No cloud deployment or cross-border transfer is implemented. Publishing the repository discloses its synthetic records and documents according to GitHub repository visibility. Do not publish the original BRD or workbooks without authorization. The local tester is the only intended recipient of API records."
-        ]
-      },
-      {
-        "heading": "Privacy statement requirement (TC-PD-03)",
-        "paragraphs": [
-          "A privacy statement shall be publicly available and easily accessible to users. The Training Register Demo homepage shall provide a clearly identifiable privacy statement link before users submit employee enrolment data. Users shall be able to open and read the statement without authentication or other access restrictions.",
-          "The statement shall describe collected personal data, training registration and completion-tracking purposes, intended recipients, storage and retention, and a privacy contact. This is a required control, not a claim that the supplied frontend implements it. The DPIA is not a substitute for the user-facing statement. Repository review must compare public/index.html and public/app.js against the requirement. Live accessibility and any statement supplied outside the repository remain unverified."
-        ]
-      },
-      {
-        "heading": "Risks and decision",
-        "paragraphs": [
-          "Unauthenticated local clients can read and add records. Cleartext HTTP and unencrypted seed JSON are unsuitable for real personal data. Test restrictions are loopback-only binding and synthetic identities only. Runtime data loss on restart is accepted for this disposable fixture, not as an approved production exception.",
-          "Disposition: synthetic input preparation only, not production approved. Assessor authorization, repository approval, supported document types, metadata rules and upload limits must be confirmed in the actual UC3 environment."
-        ]
-      }
-    ]
   }
 }

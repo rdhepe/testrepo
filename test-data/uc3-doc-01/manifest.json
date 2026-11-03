@@ -8,17 +8,17 @@
   "repositoryReference": "https://github.com/rdhepe/testrepo",
   "documents": [
     {
-      "path": "documents/DPIA.pdf",
-      "bytes": 9131,
-      "sha256": "4ce4bf08e636ecab44dba436f5ac5b83ec0e9f20cc4de259ec4ca52153ae52f9"
+      "path": "../uc3-wf-01/documents/DPIA.pdf",
+      "bytes": 10553,
+      "sha256": "7be779ffe99f10310fb8d6d267108412b50f5be5dc43202700b0833b9e9ea7ce"
     },
     {
-      "path": "documents/DPIA.docx",
-      "bytes": 12023,
-      "sha256": "5be80c6a50b8b6ee1488de0123fbacb031f4d9822813ab3c3cf90151570dc22d"
+      "path": "../uc3-wf-01/documents/DPIA.docx",
+      "bytes": 12445,
+      "sha256": "14801698e0508158b9bd1dc4526edfee61ab90e6e611eea9eb4c6232d0c1ff20"
     }
   ],
-  "annotationCount": 28,
+  "annotationCount": 29,
   "externalChecksRequired": [
     "SME reviews and approves the exact DPIA and reference annotations",
     "Confirm allowed upload formats and sizes in UC3",
