@@ -10,12 +10,12 @@
     {
       "path": "../uc3-wf-01/documents/DPIA.pdf",
       "bytes": 10553,
-      "sha256": "7be779ffe99f10310fb8d6d267108412b50f5be5dc43202700b0833b9e9ea7ce"
+      "sha256": "86fa1b2b0299c33a40c4cb704c520a2b5c8a4b6cfdb7f65e9c3de9ebf6462b3b"
     },
     {
       "path": "../uc3-wf-01/documents/DPIA.docx",
-      "bytes": 12445,
-      "sha256": "14801698e0508158b9bd1dc4526edfee61ab90e6e611eea9eb4c6232d0c1ff20"
+      "bytes": 12446,
+      "sha256": "94168bbb428c199d794e7aaf5f997ef1d894e4b5f964d35b0fa5bc11d305c1ce"
     }
   ],
   "annotationCount": 29,

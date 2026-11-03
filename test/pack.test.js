@@ -7,6 +7,25 @@ import { test } from 'node:test';
 import { buildPack, validateRepository } from '../scripts/build-pack.js';
 import { buildDocPack } from '../scripts/build-doc-pack.js';
 
+test('TC-DS-01 HLD declares one matching HTTP component and one PostgreSQL storage mismatch', async () => {
+  const { HLD } = JSON.parse(await readFile(new URL('../fixtures/documents.json', import.meta.url), 'utf8'));
+  const components = HLD.sections.find((section) => section.heading === 'Components, deployment and data flow');
+  const http = components.paragraphs.find((paragraph) => paragraph.startsWith('Component COMP-HTTP-01:'));
+  const database = components.paragraphs.find((paragraph) => paragraph.startsWith('Component COMP-DB-01:'));
+  assert.match(http, /one Node.js HTTP service/);
+  assert.match(http, /GET \/ serves public\/index.html and GET \/app.js serves public\/app.js/);
+  assert.match(http, /frontend lists and submits enrolments through \/api\/enrolments/);
+  assert.match(database, /persists enrolment records in a PostgreSQL database/);
+  assert.match(database, /remain available after the Node.js service restarts/);
+  assert.doesNotMatch(components.paragraphs.join(' '), /in-memory|lost on restart|No database server/);
+  const server = await readFile(new URL('../src/server.js', import.meta.url), 'utf8');
+  assert.match(server, /from 'node:http'/);
+  assert.match(server, /\['\/', 'index.html'/);
+  assert.match(server, /\['\/app.js', 'app.js'/);
+  assert.match(server, /const enrolments = structuredClone\(application.enrolments\)/);
+  assert.match(server, /enrolments.push\(record\)/);
+});
+
 test('DOC-01 pack has source-grounded annotations, stable PDF pages and 25 pending evidence steps', async () => {
   const output = await mkdtemp(join(tmpdir(), 'uc3-doc01-'));
   try {

@@ -6,15 +6,16 @@
       {
         "heading": "Purpose and ownership",
         "paragraphs": [
-          "Synthetic input for UC3-WF-01. This is not a PETRONAS production application, approved enterprise design, or compliance certification.",
+          "Synthetic input for UC3 assessment scenarios, including UC3-WF-01 and TC-DS-01. This is not a PETRONAS production application, approved enterprise design, or compliance certification.",
           "Training Register Demo (SYN-TRN-001), version 1.0.0, registers employees for training and tracks course completion. Business owner: Synthetic Learning Operations. Technical owner: Synthetic Demo Engineering. Contact: training.owner@example.test."
         ]
       },
       {
         "heading": "Components, deployment and data flow",
         "paragraphs": [
-          "A local browser or HTTP client calls one Node.js HTTP service implemented in src/server.js. GET / serves public/index.html and GET /app.js serves public/app.js. The registration frontend lists and submits enrolments through /api/enrolments. The service binds to 127.0.0.1, port 3100 by default; PORT can override the port. No database server, cloud resource, identity provider, or external integration is implemented.",
-          "Data flow: local HTTP client -> Node.js API -> in-memory enrolment array -> JSON response to client. fixtures/application.json supplies metadata and two synthetic seed records at startup. Runtime records are not written to disk and are lost on restart. The seed JSON file remains unchanged. No infrastructure-as-code deployment is supplied."
+          "Component COMP-HTTP-01: A local browser or HTTP client calls one Node.js HTTP service implemented in src/server.js. GET / serves public/index.html and GET /app.js serves public/app.js. The registration frontend lists and submits enrolments through /api/enrolments. The service binds to 127.0.0.1, port 3100 by default; PORT can override the port. No cloud resource, identity provider, or external integration is specified.",
+          "Component COMP-DB-01: The application persists enrolment records in a PostgreSQL database. POST /api/enrolments writes each accepted enrolment to PostgreSQL, and GET /api/enrolments reads the stored records. Accepted enrolments remain available after the Node.js service restarts.",
+          "Data flow: local HTTP client -> Node.js HTTP service -> PostgreSQL enrolment database -> JSON response to client. fixtures/application.json supplies application metadata and two synthetic seed records. No infrastructure-as-code deployment or deployed resource inventory is supplied; this document alone does not verify deployed state."
         ]
       },
       {
