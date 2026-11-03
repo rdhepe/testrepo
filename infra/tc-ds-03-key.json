@@ -1,0 +1,63 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "TC-DS-03 synthetic configuration fixture only. Do not deploy. Restricted KMS key storage with deliberately absent automatic rotation. Not connected to the demo runtime.",
+  "Parameters": {
+    "KeyAdministratorRoleArn": {
+      "Type": "String",
+      "Description": "Existing security administrator role; no real account identifier is committed.",
+      "AllowedPattern": "^arn:aws:iam::[0-9]{12}:role/.+$"
+    },
+    "ApplicationRoleArn": {
+      "Type": "String",
+      "Description": "Existing application role, distinct from the administrator; supplied only for a separately authorized deployment.",
+      "AllowedPattern": "^arn:aws:iam::[0-9]{12}:role/.+$"
+    }
+  },
+  "Rules": {
+    "SeparateKeyRoles": {
+      "Assertions": [
+        {
+          "Assert": {
+            "Fn::Not": [
+              { "Fn::Equals": [{ "Ref": "KeyAdministratorRoleArn" }, { "Ref": "ApplicationRoleArn" }] }
+            ]
+          },
+          "AssertDescription": "Key administration and application usage require distinct roles."
+        }
+      ]
+    }
+  },
+  "Resources": {
+    "EnrolmentKey": {
+      "Type": "AWS::KMS::Key",
+      "DeletionPolicy": "Retain",
+      "UpdateReplacePolicy": "Retain",
+      "Properties": {
+        "Description": "Synthetic enrolment encryption key configuration for TC-DS-03; rotation intentionally omitted.",
+        "Enabled": true,
+        "KeySpec": "SYMMETRIC_DEFAULT",
+        "KeyUsage": "ENCRYPT_DECRYPT",
+        "Origin": "AWS_KMS",
+        "KeyPolicy": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Sid": "RestrictedKeyAdministration",
+              "Effect": "Allow",
+              "Principal": { "AWS": { "Ref": "KeyAdministratorRoleArn" } },
+              "Action": ["kms:DescribeKey", "kms:GetKeyPolicy", "kms:PutKeyPolicy", "kms:EnableKey", "kms:DisableKey", "kms:EnableKeyRotation", "kms:GetKeyRotationStatus"],
+              "Resource": "*"
+            },
+            {
+              "Sid": "RestrictedApplicationUsage",
+              "Effect": "Allow",
+              "Principal": { "AWS": { "Ref": "ApplicationRoleArn" } },
+              "Action": ["kms:Encrypt", "kms:Decrypt", "kms:GenerateDataKey", "kms:DescribeKey"],
+              "Resource": "*"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

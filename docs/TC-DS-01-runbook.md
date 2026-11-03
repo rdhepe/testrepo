@@ -54,8 +54,9 @@ supplied implementation stores runtime enrolments in memory and resets them to
 seed data on restart."
 
 GitHub source review establishes implementation alignment, not actual deployed
-state. No infrastructure-as-code deployment or deployed resource inventory is
-supplied. Missing infrastructure definitions alone do not prove that a deployed
+state. The separate TC-DS-03 key configuration is undeployed and does not define
+a database or service deployment. No deployed resource inventory is supplied.
+Missing infrastructure definitions alone do not prove that a deployed
 database is absent; deployed-state verification remains outside this run.
 
 ## Local checks

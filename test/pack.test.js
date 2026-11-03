@@ -7,6 +7,55 @@ import { test } from 'node:test';
 import { buildPack, validateRepository } from '../scripts/build-pack.js';
 import { buildDocPack } from '../scripts/build-doc-pack.js';
 
+test('TC-DS-03 configures restricted managed key storage but omits automatic rotation', async () => {
+  const template = JSON.parse(await readFile(new URL('../infra/tc-ds-03-key.json', import.meta.url), 'utf8'));
+  const key = template.Resources.EnrolmentKey;
+  assert.equal(key.Type, 'AWS::KMS::Key');
+  assert.equal(key.DeletionPolicy, 'Retain');
+  assert.equal(key.Properties.Enabled, true);
+  assert.equal(key.Properties.Origin, 'AWS_KMS');
+  assert.equal(key.Properties.KeySpec, 'SYMMETRIC_DEFAULT');
+  assert.equal(key.Properties.KeyUsage, 'ENCRYPT_DECRYPT');
+  assert.equal(Object.hasOwn(key.Properties, 'EnableKeyRotation'), false);
+  assert.equal(Object.hasOwn(key.Properties, 'RotationPeriodInDays'), false);
+  const statements = key.Properties.KeyPolicy.Statement;
+  assert.equal(statements.length, 2);
+  assert.deepEqual(statements.map((statement) => statement.Principal.AWS), [
+    { Ref: 'KeyAdministratorRoleArn' }, { Ref: 'ApplicationRoleArn' }
+  ]);
+  for (const statement of statements) {
+    assert.equal(statement.Effect, 'Allow');
+    assert.ok(statement.Action.every((action) => !action.includes('*')));
+  }
+  assert.deepEqual(statements[1].Action, ['kms:Encrypt', 'kms:Decrypt', 'kms:GenerateDataKey', 'kms:DescribeKey']);
+  assert.deepEqual(template.Rules.SeparateKeyRoles.Assertions[0].Assert, {
+    'Fn::Not': [{ 'Fn::Equals': [{ Ref: 'KeyAdministratorRoleArn' }, { Ref: 'ApplicationRoleArn' }] }]
+  });
+  assert.ok(Object.values(template.Parameters).every((parameter) => !Object.hasOwn(parameter, 'Default')));
+});
+
+test('TC-DS-03 and TC-DS-05 share explicit requirements without shifting existing DPIA sections', async () => {
+  const { HLD } = JSON.parse(await readFile(new URL('../fixtures/documents.json', import.meta.url), 'utf8'));
+  const dpia = JSON.parse(await readFile(new URL('../fixtures/doc-01.json', import.meta.url), 'utf8'));
+  const keyDesign = HLD.sections.find((section) => section.heading.startsWith('TC-DS-03'));
+  const authDesign = HLD.sections.find((section) => section.heading.startsWith('TC-DS-05'));
+  assert.match(keyDesign.paragraphs.join(' '), /infra\/tc-ds-03-key.json/);
+  assert.match(keyDesign.paragraphs.join(' '), /not connected to src\/server.js/);
+  for (const paragraphs of [keyDesign.paragraphs, dpia.sections[8].paragraphs]) {
+    assert.match(paragraphs.join(' '), /Automatic key rotation shall be configured at least every 90 days/);
+    assert.match(paragraphs.join(' '), /undeployed/);
+  }
+  for (const paragraphs of [authDesign.paragraphs, dpia.sections[9].paragraphs]) {
+    assert.match(paragraphs.join(' '), /internal employee application/);
+    assert.match(paragraphs.join(' '), /GET and POST \/api\/enrolments shall require authentication through Microsoft Entra with MFA/);
+    assert.match(paragraphs.join(' '), /Non-Compliant/);
+  }
+  assert.match(dpia.sections[6].heading, /^S7 - Privacy statement/);
+  assert.match(dpia.sections[7].heading, /^S8 - Consent/);
+  assert.deepEqual(dpia.sections[8].facts.map((fact) => fact.id), ['REQ-KEY-01', 'REQ-KEY-02']);
+  assert.equal(dpia.sections[9].facts[0].id, 'REQ-AUTH-01');
+});
+
 test('TC-DS-01 HLD declares one matching HTTP component and one PostgreSQL storage mismatch', async () => {
   const { HLD } = JSON.parse(await readFile(new URL('../fixtures/documents.json', import.meta.url), 'utf8'));
   const components = HLD.sections.find((section) => section.heading === 'Components, deployment and data flow');

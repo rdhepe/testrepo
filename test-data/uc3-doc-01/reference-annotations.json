@@ -293,6 +293,36 @@
       "section": "S8 - Consent requirement",
       "pdfPage": 9,
       "sourceQuote": "Control TC-PD-02: Personal data shall be collected only with user consent. For this synthetic assessment scenario, user consent is required before employee enrolment information is submitted and stored. The registration frontend shall collect an affirmative consent choice before submission, and the application shall block storage when that consent is absent."
+    },
+    {
+      "id": "REQ-KEY-01",
+      "kind": "controlRequirement",
+      "status": "REQUIRED_NOT_VERIFIED",
+      "value": "Managed encryption-key storage restricted to separate administrator and application roles",
+      "quote": "Control TC-DS-03: The proposed enrolment encryption key shall be stored in a managed key service with access restricted to distinct key-administrator and application roles.",
+      "section": "S9 - Encryption-key storage and rotation requirement",
+      "pdfPage": 10,
+      "sourceQuote": "Control TC-DS-03: The proposed enrolment encryption key shall be stored in a managed key service with access restricted to distinct key-administrator and application roles."
+    },
+    {
+      "id": "REQ-KEY-02",
+      "kind": "controlRequirement",
+      "status": "REQUIRED_NOT_VERIFIED",
+      "value": "Automatic key rotation at least every 90 days",
+      "quote": "Automatic key rotation shall be configured at least every 90 days.",
+      "section": "S9 - Encryption-key storage and rotation requirement",
+      "pdfPage": 10,
+      "sourceQuote": "Automatic key rotation shall be configured at least every 90 days."
+    },
+    {
+      "id": "REQ-AUTH-01",
+      "kind": "controlRequirement",
+      "status": "REQUIRED_NOT_VERIFIED",
+      "value": "Internal application enrolment reads and writes require Microsoft Entra authentication with MFA",
+      "quote": "Access to GET and POST /api/enrolments shall require authentication through Microsoft Entra with MFA before records can be read or created.",
+      "section": "S10 - Identity-provider and MFA requirement",
+      "pdfPage": 11,
+      "sourceQuote": "Access to GET and POST /api/enrolments shall require authentication through Microsoft Entra with MFA before records can be read or created."
     }
   ]
 }

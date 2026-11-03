@@ -6,7 +6,7 @@
     {
       "heading": "S1 - Context and data subjects",
       "paragraphs": [
-        "Shared synthetic draft for UC3-WF-01, UC3-DOC-01 and the implemented privacy-control test cases. SME approval is pending. No enterprise approval, legal basis or production compliance is asserted.",
+        "Shared synthetic draft for UC3-WF-01, UC3-DOC-01 and the implemented privacy and security control test cases. SME approval is pending. No enterprise approval, legal basis or production compliance is asserted.",
         "Training Register Demo (SYN-TRN-001) registers employees for training and tracks course completion. Data subjects are fictional employees enrolled as learners. All records and contacts are fabricated."
       ],
       "facts": [
@@ -108,6 +108,29 @@
       ],
       "facts": [
         { "id": "REQ-CON-01", "kind": "controlRequirement", "status": "REQUIRED_NOT_VERIFIED", "value": "User consent required before enrolment submission and storage; block storage without consent", "quote": "Control TC-PD-02: Personal data shall be collected only with user consent. For this synthetic assessment scenario, user consent is required before employee enrolment information is submitted and stored. The registration frontend shall collect an affirmative consent choice before submission, and the application shall block storage when that consent is absent." }
+      ]
+    },
+    {
+      "heading": "S9 - Encryption-key storage and rotation requirement",
+      "paragraphs": [
+        "Control TC-DS-03: The proposed enrolment encryption key shall be stored in a managed key service with access restricted to distinct key-administrator and application roles. Automatic key rotation shall be configured at least every 90 days.",
+        "This requirement applies to Resources.EnrolmentKey in infra/tc-ds-03-key.json, an undeployed AWS KMS configuration fixture. Its key policy restricts access to role parameters, but EnableKeyRotation and RotationPeriodInDays are deliberately absent. Permission to enable rotation does not configure rotation. The expected configuration verdict is Non-Compliant for missing automatic rotation; the 90-day interval is synthetic, not an enterprise-policy assertion.",
+        "The template is not connected to the running application and contains no key material or credentials. Existing seed JSON and runtime memory are not encrypted by it. Do not deploy the template or infer live key storage, effective permissions, actual rotation, or runtime data encryption from this configuration. Live verification and SME approval remain pending."
+      ],
+      "facts": [
+        { "id": "REQ-KEY-01", "kind": "controlRequirement", "status": "REQUIRED_NOT_VERIFIED", "value": "Managed encryption-key storage restricted to separate administrator and application roles", "quote": "Control TC-DS-03: The proposed enrolment encryption key shall be stored in a managed key service with access restricted to distinct key-administrator and application roles." },
+        { "id": "REQ-KEY-02", "kind": "controlRequirement", "status": "REQUIRED_NOT_VERIFIED", "value": "Automatic key rotation at least every 90 days", "quote": "Automatic key rotation shall be configured at least every 90 days." }
+      ]
+    },
+    {
+      "heading": "S10 - Identity-provider and MFA requirement",
+      "paragraphs": [
+        "Control TC-DS-05: Training Register Demo is an internal employee application. Employee enrolment records are designated protected sensitive data for this synthetic control, not special-category personal data. Access to GET and POST /api/enrolments shall require authentication through Microsoft Entra with MFA before records can be read or created.",
+        "The supplied application deliberately permits anonymous reads and writes without identity-provider integration or token validation. The expected verdict is Non-Compliant because protected records are accessible without approved authentication. Loopback binding does not enforce identity. This requirement does not assert that the application implements authentication or MFA.",
+        "The worksheet assumption that MFA is enabled when an identity provider is used is an assessment shortcut, not evidence of effective MFA. No provider protects these routes. GitHub-only review can establish the absent application authentication gate but cannot perform login tests or determine live tenant policy. Do not report that a tenant's MFA is disabled without evidence."
+      ],
+      "facts": [
+        { "id": "REQ-AUTH-01", "kind": "controlRequirement", "status": "REQUIRED_NOT_VERIFIED", "value": "Internal application enrolment reads and writes require Microsoft Entra authentication with MFA", "quote": "Access to GET and POST /api/enrolments shall require authentication through Microsoft Entra with MFA before records can be read or created." }
       ]
     }
   ]

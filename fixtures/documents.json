@@ -6,7 +6,7 @@
       {
         "heading": "Purpose and ownership",
         "paragraphs": [
-          "Synthetic input for UC3 assessment scenarios, including UC3-WF-01 and TC-DS-01. This is not a PETRONAS production application, approved enterprise design, or compliance certification.",
+          "Synthetic input for UC3 assessment scenarios, including UC3-WF-01, TC-DS-01, TC-DS-03 and TC-DS-05. This is not a PETRONAS production application, approved enterprise design, or compliance certification.",
           "Training Register Demo (SYN-TRN-001), version 1.0.0, registers employees for training and tracks course completion. Business owner: Synthetic Learning Operations. Technical owner: Synthetic Demo Engineering. Contact: training.owner@example.test."
         ]
       },
@@ -15,7 +15,7 @@
         "paragraphs": [
           "Component COMP-HTTP-01: A local browser or HTTP client calls one Node.js HTTP service implemented in src/server.js. GET / serves public/index.html and GET /app.js serves public/app.js. The registration frontend lists and submits enrolments through /api/enrolments. The service binds to 127.0.0.1, port 3100 by default; PORT can override the port. No cloud resource, identity provider, or external integration is specified.",
           "Component COMP-DB-01: The application persists enrolment records in a PostgreSQL database. POST /api/enrolments writes each accepted enrolment to PostgreSQL, and GET /api/enrolments reads the stored records. Accepted enrolments remain available after the Node.js service restarts.",
-          "Data flow: local HTTP client -> Node.js HTTP service -> PostgreSQL enrolment database -> JSON response to client. fixtures/application.json supplies application metadata and two synthetic seed records. No infrastructure-as-code deployment or deployed resource inventory is supplied; this document alone does not verify deployed state."
+          "Data flow: local HTTP client -> Node.js HTTP service -> PostgreSQL enrolment database -> JSON response to client. fixtures/application.json supplies application metadata and two synthetic seed records. The separate TC-DS-03 key template is an undeployed configuration fixture, not a database or service deployment. No deployed resource inventory is supplied; this document alone does not verify deployed state."
         ]
       },
       {
@@ -31,6 +31,23 @@
         "paragraphs": [
           "The local machine is the deployment boundary. Loopback binding limits network exposure but does not authenticate local clients. HTTP is not TLS protected. There is no authentication, authorization, MFA, audit trail, encryption-at-rest mechanism, automated retention, backup or recovery.",
           "Use synthetic records only. Do not expose the service publicly or store real personal data. These limitations are intentional and are not claims of passing other UC3 privacy or security controls."
+        ]
+      },
+      {
+        "heading": "TC-DS-03 key storage and rotation requirement",
+        "paragraphs": [
+          "Control TC-DS-03: The proposed enrolment encryption key shall be stored in a managed key service with access restricted to distinct key-administrator and application roles. Automatic key rotation shall be configured at least every 90 days. The interval is a synthetic assessment requirement, not an asserted enterprise standard.",
+          "The configuration under review is Resources.EnrolmentKey in infra/tc-ds-03-key.json, an AWS CloudFormation AWS::KMS::Key resource with AWS_KMS origin and a symmetric encryption key. The key policy restricts administration and cryptographic usage to separate role parameters. In a KMS key policy, Resource '*' refers to the key to which the policy is attached; it is not a public principal. No key material, credentials or actual account identifiers are committed.",
+          "The template deliberately omits EnableKeyRotation and RotationPeriodInDays. Permission to call kms:EnableKeyRotation is not an enabled rotation schedule; an expiry or deletion setting is not rotation either. Expect restricted managed storage configuration to be recognized and the missing required automatic rotation configuration to be reported as Non-Compliant.",
+          "This template is an undeployed assessment fixture and is not connected to src/server.js. The application still stores records in memory without encryption. Evaluate the key configuration separately from runtime encryption; do not claim that employee records are encrypted, a key exists in a live account, or live permissions and rotation have been verified. Do not deploy the template."
+        ]
+      },
+      {
+        "heading": "TC-DS-05 identity-provider and MFA requirement",
+        "paragraphs": [
+          "Control TC-DS-05: Training Register Demo is classified as an internal employee application for this synthetic assessment. Employee enrolment records are designated protected sensitive data for this control, not a claim that they are special-category personal data. Access to GET and POST /api/enrolments shall require authentication through Microsoft Entra with MFA before records can be read or created.",
+          "The supplied local application deliberately has no identity-provider integration, token validation or authentication gate on these routes. Anonymous GET returns records with HTTP 200; anonymous valid POST returns HTTP 201; a request bearing an invalid token can still read records. Loopback binding is not authentication. Expect a Non-Compliant finding for access without the required approved identity provider.",
+          "The worksheet assumes MFA is enabled when an identity provider is used. Record that as an assessment assumption, not proof of actual enforcement. Here no provider protects the routes, so that assumption cannot satisfy the control. Repository review cannot perform login challenges or establish effective tenant MFA policy. Do not claim that a real tenant has MFA disabled. External-application provider alternatives are outside this internal fixture's scope."
         ]
       }
     ]

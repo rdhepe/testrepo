@@ -4,6 +4,34 @@ import { readFile } from 'node:fs/promises';
 import { test } from 'node:test';
 import { application, createApplication, enrolmentFields } from '../src/server.js';
 
+test('TC-DS-05 deliberately exposes enrolments without identity-provider authentication', async () => {
+  const server = createApplication();
+  server.listen(0, '127.0.0.1');
+  await once(server, 'listening');
+  const base = `http://127.0.0.1:${server.address().port}`;
+  try {
+    const anonymous = await fetch(`${base}/api/enrolments`);
+    assert.equal(anonymous.status, 200);
+    assert.deepEqual(await anonymous.json(), application.enrolments);
+    assert.equal(anonymous.headers.get('www-authenticate'), null);
+    const invalidToken = await fetch(`${base}/api/enrolments`, {
+      headers: { Authorization: 'Bearer SYNTHETIC-INVALID-NOT-A-REAL-TOKEN' }
+    });
+    assert.equal(invalidToken.status, 200);
+    assert.deepEqual(await invalidToken.json(), application.enrolments);
+    const created = await fetch(`${base}/api/enrolments`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ...application.enrolments[0], employeeId: 'SYN-AUTH-001' })
+    });
+    assert.equal(created.status, 201);
+    const record = await created.json();
+    const records = await (await fetch(`${base}/api/enrolments`)).json();
+    assert.deepEqual(records.find((stored) => stored.id === record.id), record);
+  } finally {
+    await new Promise((resolve) => server.close(resolve));
+  }
+});
+
 test('TC-PD-03 serves a registration frontend without a privacy statement or link', async () => {
   const server = createApplication();
   server.listen(0, '127.0.0.1');
