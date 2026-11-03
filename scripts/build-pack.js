@@ -19,7 +19,7 @@ export function validateRepository(reference) {
   return parsed.href.replace(/\/$/, '');
 }
 
-async function renderPdf(evidence, reference) {
+export async function renderPdf(evidence, reference) {
   const pdf = new PDFDocument({ size: 'A4', margin: 48, info: { Title: evidence.title, Author: 'Synthetic Demo Engineering' } });
   const chunks = [];
   const result = new Promise((resolveBuffer, reject) => {
@@ -31,6 +31,7 @@ async function renderPdf(evidence, reference) {
   pdf.moveDown().font('Helvetica').fontSize(10).text(`${evidence.documentId} | 1.0.0 | SYNTHETIC TEST FIXTURE`);
   pdf.moveDown().text(`Repository: ${reference ?? 'NOT CONFIGURED - publish repository and regenerate before positive UC3 submission.'}`);
   for (const section of evidence.sections) {
+    if (evidence.paginated) pdf.addPage();
     pdf.moveDown().font('Helvetica-Bold').fontSize(13).text(section.heading);
     for (const paragraph of section.paragraphs) pdf.moveDown(0.5).font('Helvetica').fontSize(10).text(paragraph);
   }
@@ -38,7 +39,7 @@ async function renderPdf(evidence, reference) {
   return result;
 }
 
-async function renderWord(evidence, reference) {
+export async function renderWord(evidence, reference) {
   return Packer.toBuffer(new Document({
     title: evidence.title, creator: 'Synthetic Demo Engineering',
     sections: [{ children: [
@@ -46,7 +47,7 @@ async function renderWord(evidence, reference) {
       new Paragraph(`${evidence.documentId} | 1.0.0 | SYNTHETIC TEST FIXTURE`),
       new Paragraph(`Repository: ${reference ?? 'NOT CONFIGURED - regenerate after publishing.'}`),
       ...evidence.sections.flatMap((section) => [
-        new Paragraph({ text: section.heading, heading: HeadingLevel.HEADING_1 }),
+        new Paragraph({ text: section.heading, heading: HeadingLevel.HEADING_1, pageBreakBefore: Boolean(evidence.paginated) }),
         ...section.paragraphs.map((text) => new Paragraph({ text, spacing: { after: 160 } }))
       ])
     ] }]

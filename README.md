@@ -1,5 +1,5 @@
 ---
-title: UC3-WF-01 Synthetic Application and Input Pack
+title: UC3 Synthetic Application and Input Packs
 description: A runnable training-register API and synthetic HLD, DPIA, metadata and negative inputs for testing an existing UC3 application.
 ---
 
@@ -62,6 +62,28 @@ API, including its limitations, and are not enterprise-approved evidence.
 Follow [docs/UC3-WF-01-runbook.md](docs/UC3-WF-01-runbook.md) to execute the test.
 Mandatory fields, upload types, and size limits must be confirmed against the real
 UC3 form. Local tests validate this fixture, not whether UC3 passes UC3-WF-01.
+
+## DPIA extraction test
+
+For **UC3-DOC-01: Extract personal-data categories and purposes from DPIA**, use
+the separate [DOC-01 runbook](docs/UC3-DOC-01-runbook.md). Generate its inputs with:
+
+```powershell
+npm run pack:doc
+```
+
+The [DOC-01 pack](test-data/uc3-doc-01) includes a paginated synthetic DPIA in PDF
+and DOCX, reviewer-only source annotations, a comparison worksheet, and evidence
+templates for all 25 steps. It covers fields, categories, subjects, purposes,
+storage, processing, exclusions and deliberately unspecified or ambiguous details.
+It describes the existing API; no new data collection or UC3 extraction is simulated.
+The default repository comes from [fixtures/application.json](fixtures/application.json);
+`--repository` and `--output` overrides are supported.
+
+SME approval is **pending**, not generated or assumed. Obtain approval for the
+exact DPIA and annotations before treating the test prerequisite as met. Upload
+only the DPIA as the document-analysis input, not the reference answers. Local
+tests validate the fixture pack, not UC3 extraction accuracy.
 
 ## Publication boundary
 

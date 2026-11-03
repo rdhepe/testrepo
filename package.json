@@ -10,7 +10,8 @@
   "scripts": {
     "start": "node src/server.js",
     "test": "node --test",
-    "pack": "node scripts/build-pack.js"
+    "pack": "node scripts/build-pack.js",
+    "pack:doc": "node scripts/build-doc-pack.js"
   },
   "dependencies": {
     "docx": "^9.14.0",

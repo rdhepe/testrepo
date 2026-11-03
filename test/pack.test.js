@@ -5,6 +5,47 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { test } from 'node:test';
 import { buildPack, validateRepository } from '../scripts/build-pack.js';
+import { buildDocPack } from '../scripts/build-doc-pack.js';
+
+test('DOC-01 pack has source-grounded annotations, stable PDF pages and 25 pending evidence steps', async () => {
+  const output = await mkdtemp(join(tmpdir(), 'uc3-doc01-'));
+  try {
+    const { manifest } = await buildDocPack({ output });
+    const json = async (path) => JSON.parse(await readFile(join(output, path), 'utf8'));
+    const source = JSON.parse(await readFile(new URL('../fixtures/doc-01.json', import.meta.url), 'utf8'));
+    const application = JSON.parse(await readFile(new URL('../fixtures/application.json', import.meta.url), 'utf8'));
+    const { annotations } = await json('reference-annotations.json');
+    assert.equal(manifest.approvalStatus, 'PENDING_SME_REVIEW');
+    assert.equal(manifest.uc3ExecutionStatus, 'NOT_RUN');
+    assert.equal(new Set(annotations.map((fact) => fact.id)).size, annotations.length);
+    for (const fact of annotations) {
+      const sectionIndex = source.sections.findIndex((section) => section.heading === fact.section);
+      assert.ok(sectionIndex >= 0);
+      assert.ok(source.sections[sectionIndex].paragraphs.join(' ').includes(fact.sourceQuote));
+      assert.equal(fact.pdfPage, sectionIndex + 2);
+    }
+    assert.deepEqual(annotations.filter((fact) => fact.kind === 'field').map((fact) => fact.value).sort(), [...application.dataFields.map((field) => field.name), 'id'].sort());
+    assert.equal(annotations.filter((fact) => fact.kind === 'category').length, 4);
+    assert.equal(annotations.filter((fact) => fact.kind === 'purpose').length, 2);
+    assert.equal(annotations.filter((fact) => fact.status === 'NOT_SPECIFIED').length, 3);
+    assert.equal(annotations.filter((fact) => fact.status === 'AMBIGUOUS').length, 1);
+    for (const document of manifest.documents) {
+      const buffer = await readFile(join(output, document.path));
+      assert.equal(createHash('sha256').update(buffer).digest('hex'), document.sha256);
+      assert.equal(buffer.length, document.bytes);
+      assert.equal(buffer.subarray(0, document.path.endsWith('.pdf') ? 5 : 2).toString(), document.path.endsWith('.pdf') ? '%PDF-' : 'PK');
+      if (document.path.endsWith('.pdf')) assert.equal([...buffer.toString('latin1').matchAll(/\/Type \/Page\b/g)].length, source.sections.length + 1);
+    }
+    const evidence = await json('run-evidence-template.json');
+    assert.equal(evidence.steps.length, 25);
+    assert.ok(evidence.steps.every((step) => step.status === 'NOT_RUN' && step.actualResult === null));
+    assert.equal(evidence.smeApproval.approver, null);
+    assert.equal(evidence.finalVerdict, 'NOT_RUN');
+    assert.equal((await readFile(join(output, 'comparison-template.csv'), 'utf8')).split('\r\n').length, annotations.length + 2);
+  } finally {
+    await rm(output, { recursive: true, force: true });
+  }
+});
 
 test('UC3 pack contains genuine documents, negative fixtures and 26 unexecuted evidence steps', async () => {
   const output = await mkdtemp(join(tmpdir(), 'uc3-wf01-'));

@@ -1,0 +1,92 @@
+{
+  "title": "Training Register Demo - DPIA Extraction Fixture",
+  "documentId": "SYN-TRN-DPIA-DOC01-001",
+  "paginated": true,
+  "sections": [
+    {
+      "heading": "S1 - Context and data subjects",
+      "paragraphs": [
+        "Synthetic draft for UC3-DOC-01. SME approval is pending. No enterprise approval, legal basis or production compliance is asserted.",
+        "Training Register Demo (SYN-TRN-001) registers employees for training and tracks course completion. Data subjects are fictional employees enrolled as learners. All records and contacts are fabricated."
+      ],
+      "facts": [
+        { "id": "SUB-01", "kind": "dataSubject", "value": "Fictional employees enrolled as learners", "quote": "Data subjects are fictional employees enrolled as learners." }
+      ]
+    },
+    {
+      "heading": "S2 - Personal-data categories and fields",
+      "paragraphs": [
+        "Employee identification data: employeeId identifies an employee's enrolment; employeeName identifies the learner. Contact data: workEmail records the learner's work contact.",
+        "Learning data: courseCode identifies the training course; completionStatus tracks training progress linked to the employee. Both are personal information in an employee-linked enrolment, although neither identifies a person in isolation.",
+        "Record identification data: id is an application-generated UUID associated with an employee on newly created records only; seed records have no id.",
+        "The synthetic business contact ownerEmail (training.owner@example.test) belongs to application metadata, not learner enrolment records. No passwords, national IDs, IP addresses, authentication tokens, health data or financial data are stored in enrolment records."
+      ],
+      "facts": [
+        { "id": "CAT-01", "kind": "category", "value": "Employee identification data", "quote": "Employee identification data: employeeId identifies an employee's enrolment; employeeName identifies the learner." },
+        { "id": "CAT-02", "kind": "category", "value": "Contact data", "quote": "Contact data: workEmail records the learner's work contact." },
+        { "id": "CAT-03", "kind": "category", "value": "Learning data linked to an employee", "quote": "Both are personal information in an employee-linked enrolment, although neither identifies a person in isolation." },
+        { "id": "CAT-04", "kind": "category", "value": "Record identification data", "quote": "Record identification data: id is an application-generated UUID associated with an employee on newly created records only; seed records have no id." },
+        { "id": "FLD-01", "kind": "field", "value": "employeeId", "quote": "employeeId identifies an employee's enrolment" },
+        { "id": "FLD-02", "kind": "field", "value": "employeeName", "quote": "employeeName identifies the learner" },
+        { "id": "FLD-03", "kind": "field", "value": "workEmail", "quote": "workEmail records the learner's work contact" },
+        { "id": "FLD-04", "kind": "field", "value": "courseCode", "quote": "courseCode identifies the training course" },
+        { "id": "FLD-05", "kind": "field", "value": "completionStatus", "quote": "completionStatus tracks training progress linked to the employee" },
+        { "id": "FLD-06", "kind": "field", "value": "id", "quote": "id is an application-generated UUID associated with an employee on newly created records only; seed records have no id." },
+        { "id": "CONTACT-01", "kind": "documentContact", "value": "ownerEmail is metadata, not a learner field", "quote": "The synthetic business contact ownerEmail (training.owner@example.test) belongs to application metadata, not learner enrolment records." },
+        { "id": "EXC-01", "kind": "exclusion", "value": "Do not infer sensitive data or technical identifiers as collected enrolment fields", "quote": "No passwords, national IDs, IP addresses, authentication tokens, health data or financial data are stored in enrolment records." }
+      ]
+    },
+    {
+      "heading": "S3 - Processing purposes",
+      "paragraphs": [
+        "Purpose P1: register employees for training. employeeId and employeeName associate an enrolment with the learner; workEmail records the learner's work contact; courseCode selects the training course.",
+        "Purpose P2: track course completion. completionStatus records enrolled or completed progress against the employee and course. The generated id distinguishes newly created enrolment records.",
+        "The application does not send emails, perform marketing, profile employees, or make automated decisions. No consent workflow is implemented."
+      ],
+      "facts": [
+        { "id": "PUR-01", "kind": "purpose", "value": "Register employees for training", "quote": "Purpose P1: register employees for training." },
+        { "id": "PUR-02", "kind": "purpose", "value": "Track course completion", "quote": "Purpose P2: track course completion." },
+        { "id": "EXC-02", "kind": "exclusion", "value": "No email sending, marketing, profiling or automated decisions", "quote": "The application does not send emails, perform marketing, profile employees, or make automated decisions." }
+      ]
+    },
+    {
+      "heading": "S4 - Collection, use and sharing",
+      "paragraphs": [
+        "Collection: POST /api/enrolments accepts employeeId, employeeName, workEmail, courseCode and completionStatus from a local HTTP client. The application generates id; clients cannot submit additional fields.",
+        "Use: the Node.js service validates input, adds the enrolment to its in-memory array and returns the created record. GET /api/enrolments returns records to any local client without authentication.",
+        "Sharing: the local tester is the only intended API recipient, but access is not enforced by identity. No external service integration or email delivery is implemented. Publishing the repository exposes its synthetic seed data and documents according to GitHub repository visibility."
+      ],
+      "facts": [
+        { "id": "ACT-01", "kind": "activity", "value": "Collect five client fields and generate id", "quote": "Collection: POST /api/enrolments accepts employeeId, employeeName, workEmail, courseCode and completionStatus from a local HTTP client. The application generates id; clients cannot submit additional fields." },
+        { "id": "ACT-02", "kind": "activity", "value": "Validate, store in memory and return enrolments", "quote": "Use: the Node.js service validates input, adds the enrolment to its in-memory array and returns the created record. GET /api/enrolments returns records to any local client without authentication." },
+        { "id": "ACT-03", "kind": "activity", "value": "Local API access and repository publication of synthetic data", "quote": "Publishing the repository exposes its synthetic seed data and documents according to GitHub repository visibility." },
+        { "id": "REC-01", "kind": "recipient", "value": "Local tester intended; any local client can access records", "quote": "Sharing: the local tester is the only intended API recipient, but access is not enforced by identity." }
+      ]
+    },
+    {
+      "heading": "S5 - Storage and retention",
+      "paragraphs": [
+        "Two synthetic seed enrolments persist in fixtures/application.json on the local machine. Runtime enrolments are stored only in Node.js process memory on that machine and are lost on restart; the seed file remains unchanged until manually removed.",
+        "No database, cloud deployment, backup, cross-border transfer or automated retention/deletion mechanism is implemented. The service binds to loopback (127.0.0.1) and uses cleartext HTTP. There is no authentication, authorization, audit trail or application encryption-at-rest mechanism. Use synthetic data only."
+      ],
+      "facts": [
+        { "id": "STO-01", "kind": "storage", "value": "Local seed JSON persists until manually removed", "quote": "Two synthetic seed enrolments persist in fixtures/application.json on the local machine." },
+        { "id": "STO-02", "kind": "storage", "value": "Runtime data in local process memory, lost on restart", "quote": "Runtime enrolments are stored only in Node.js process memory on that machine and are lost on restart; the seed file remains unchanged until manually removed." },
+        { "id": "STO-03", "kind": "storage", "value": "No database, cloud, backup, transfer or automated deletion", "quote": "No database, cloud deployment, backup, cross-border transfer or automated retention/deletion mechanism is implemented." }
+      ]
+    },
+    {
+      "heading": "S6 - Open questions and incomplete statements",
+      "paragraphs": [
+        "The country in which the local tester runs the machine is not specified. A fixed retention period for the seed file is not specified. The repository visibility is not specified in this DPIA.",
+        "A future export might be shared with a training partner. The partner, export fields, destination and timing are undecided. This is an ambiguous future proposal, not an implemented processing activity or an approved purpose."
+      ],
+      "facts": [
+        { "id": "GAP-01", "kind": "gap", "status": "NOT_SPECIFIED", "value": "Local machine country", "quote": "The country in which the local tester runs the machine is not specified." },
+        { "id": "GAP-02", "kind": "gap", "status": "NOT_SPECIFIED", "value": "Fixed seed-file retention period", "quote": "A fixed retention period for the seed file is not specified." },
+        { "id": "GAP-03", "kind": "gap", "status": "NOT_SPECIFIED", "value": "Repository visibility", "quote": "The repository visibility is not specified in this DPIA." },
+        { "id": "GAP-04", "kind": "gap", "status": "AMBIGUOUS", "value": "Future export: do not infer current sharing, partner, fields, destination or timing", "quote": "A future export might be shared with a training partner. The partner, export fields, destination and timing are undecided. This is an ambiguous future proposal, not an implemented processing activity or an approved purpose." }
+      ]
+    }
+  ]
+}

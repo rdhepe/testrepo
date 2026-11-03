@@ -1,0 +1,244 @@
+{
+  "testCaseId": "UC3-DOC-01",
+  "runId": null,
+  "assessor": null,
+  "uc3Environment": null,
+  "assessmentId": null,
+  "smeApproval": {
+    "status": "PENDING",
+    "approver": null,
+    "reference": null,
+    "approvedDocumentSha256": null,
+    "approvedAnnotationsSha256": null
+  },
+  "uploadedDocument": null,
+  "extractedOutputReference": null,
+  "finalVerdict": "NOT_RUN",
+  "steps": [
+    {
+      "step": 1,
+      "action": "Obtain SME-approved DPIA",
+      "expected": "DPIA is available; SME approval reference and approved file hash are recorded before execution.",
+      "actualResult": null,
+      "status": "NOT_RUN",
+      "evidenceReference": null,
+      "defectReference": null
+    },
+    {
+      "step": 2,
+      "action": "Prepare reference annotations and source locations",
+      "expected": "Each expected fact has a section and verbatim source quote.",
+      "actualResult": null,
+      "status": "NOT_RUN",
+      "evidenceReference": null,
+      "defectReference": null
+    },
+    {
+      "step": 3,
+      "action": "Verify reference coverage",
+      "expected": "All material categories and declared purposes are covered.",
+      "actualResult": null,
+      "status": "NOT_RUN",
+      "evidenceReference": null,
+      "defectReference": null
+    },
+    {
+      "step": 4,
+      "action": "Upload the approved DPIA to an assessment",
+      "expected": "UC3 accepts the document.",
+      "actualResult": null,
+      "status": "NOT_RUN",
+      "evidenceReference": null,
+      "defectReference": null
+    },
+    {
+      "step": 5,
+      "action": "Run the document-analysis workflow",
+      "expected": "Workflow executes successfully.",
+      "actualResult": null,
+      "status": "NOT_RUN",
+      "evidenceReference": null,
+      "defectReference": null
+    },
+    {
+      "step": 6,
+      "action": "Review extracted DPIA information",
+      "expected": "Extraction is available for review.",
+      "actualResult": null,
+      "status": "NOT_RUN",
+      "evidenceReference": null,
+      "defectReference": null
+    },
+    {
+      "step": 7,
+      "action": "Compare extracted categories with annotations",
+      "expected": "Categories agree with CAT references; equivalent labels are acceptable.",
+      "actualResult": null,
+      "status": "NOT_RUN",
+      "evidenceReference": null,
+      "defectReference": null
+    },
+    {
+      "step": 8,
+      "action": "Check category completeness",
+      "expected": "All material categories, including employee-linked learning data, are identified.",
+      "actualResult": null,
+      "status": "NOT_RUN",
+      "evidenceReference": null,
+      "defectReference": null
+    },
+    {
+      "step": 9,
+      "action": "Compare extracted fields with annotations",
+      "expected": "FLD references and metadata contact distinction are represented accurately.",
+      "actualResult": null,
+      "status": "NOT_RUN",
+      "evidenceReference": null,
+      "defectReference": null
+    },
+    {
+      "step": 10,
+      "action": "Check fields for unsupported additions",
+      "expected": "Excluded fields are not reported as collected enrolment data.",
+      "actualResult": null,
+      "status": "NOT_RUN",
+      "evidenceReference": null,
+      "defectReference": null
+    },
+    {
+      "step": 11,
+      "action": "Compare extracted data subjects with annotations",
+      "expected": "Subjects match SUB-01.",
+      "actualResult": null,
+      "status": "NOT_RUN",
+      "evidenceReference": null,
+      "defectReference": null
+    },
+    {
+      "step": 12,
+      "action": "Verify subjects represent declared groups",
+      "expected": "Fictional employees/learners are identified without invented groups.",
+      "actualResult": null,
+      "status": "NOT_RUN",
+      "evidenceReference": null,
+      "defectReference": null
+    },
+    {
+      "step": 13,
+      "action": "Compare extracted processing purposes",
+      "expected": "PUR-01 and PUR-02 retain their meaning.",
+      "actualResult": null,
+      "status": "NOT_RUN",
+      "evidenceReference": null,
+      "defectReference": null
+    },
+    {
+      "step": 14,
+      "action": "Verify purpose completeness",
+      "expected": "Both purposes are present; exclusions and future proposals are not current purposes.",
+      "actualResult": null,
+      "status": "NOT_RUN",
+      "evidenceReference": null,
+      "defectReference": null
+    },
+    {
+      "step": 15,
+      "action": "Compare extracted storage details",
+      "expected": "STO references distinguish persistent seed file from volatile runtime memory.",
+      "actualResult": null,
+      "status": "NOT_RUN",
+      "evidenceReference": null,
+      "defectReference": null
+    },
+    {
+      "step": 16,
+      "action": "Compare processing activities",
+      "expected": "Collection, generation, use, access and repository disclosure match ACT and REC references.",
+      "actualResult": null,
+      "status": "NOT_RUN",
+      "evidenceReference": null,
+      "defectReference": null
+    },
+    {
+      "step": 17,
+      "action": "Inspect source citations for each extracted item",
+      "expected": "Each extracted fact has an inspectable source reference.",
+      "actualResult": null,
+      "status": "NOT_RUN",
+      "evidenceReference": null,
+      "defectReference": null
+    },
+    {
+      "step": 18,
+      "action": "Verify citation targets",
+      "expected": "Citations resolve to the matching section/content of the uploaded file.",
+      "actualResult": null,
+      "status": "NOT_RUN",
+      "evidenceReference": null,
+      "defectReference": null
+    },
+    {
+      "step": 19,
+      "action": "Find material omissions",
+      "expected": "No material declared information is silently omitted.",
+      "actualResult": null,
+      "status": "NOT_RUN",
+      "evidenceReference": null,
+      "defectReference": null
+    },
+    {
+      "step": 20,
+      "action": "Find unsupported extracted information",
+      "expected": "Every assertion is supported by the DPIA, not inferred from other inputs.",
+      "actualResult": null,
+      "status": "NOT_RUN",
+      "evidenceReference": null,
+      "defectReference": null
+    },
+    {
+      "step": 21,
+      "action": "Review missing, incomplete and ambiguous statements",
+      "expected": "GAP references are identified as missing or ambiguous.",
+      "actualResult": null,
+      "status": "NOT_RUN",
+      "evidenceReference": null,
+      "defectReference": null
+    },
+    {
+      "step": 22,
+      "action": "Distinguish declared facts from unknowns",
+      "expected": "No country, retention duration, visibility or future-export details are invented.",
+      "actualResult": null,
+      "status": "NOT_RUN",
+      "evidenceReference": null,
+      "defectReference": null
+    },
+    {
+      "step": 23,
+      "action": "Capture annotations, extraction, citations and discrepancies",
+      "expected": "Evidence includes the reviewed reference set and actual UC3 output.",
+      "actualResult": null,
+      "status": "NOT_RUN",
+      "evidenceReference": null,
+      "defectReference": null
+    },
+    {
+      "step": 24,
+      "action": "Record defects",
+      "expected": "Omissions, incorrect extractions, unsupported information and missing citations are recorded.",
+      "actualResult": null,
+      "status": "NOT_RUN",
+      "evidenceReference": null,
+      "defectReference": null
+    },
+    {
+      "step": 25,
+      "action": "Confirm final extraction fidelity",
+      "expected": "SME reviews results against the approved DPIA; verdict is based on actual evidence.",
+      "actualResult": null,
+      "status": "NOT_RUN",
+      "evidenceReference": null,
+      "defectReference": null
+    }
+  ]
+}
