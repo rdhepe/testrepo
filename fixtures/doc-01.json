@@ -87,6 +87,17 @@
         { "id": "GAP-03", "kind": "gap", "status": "NOT_SPECIFIED", "value": "Repository visibility", "quote": "The repository visibility is not specified in this DPIA." },
         { "id": "GAP-04", "kind": "gap", "status": "AMBIGUOUS", "value": "Future export: do not infer current sharing, partner, fields, destination or timing", "quote": "A future export might be shared with a training partner. The partner, export fields, destination and timing are undecided. This is an ambiguous future proposal, not an implemented processing activity or an approved purpose." }
       ]
+    },
+    {
+      "heading": "S7 - Privacy statement requirement",
+      "paragraphs": [
+        "Control TC-PD-03: A privacy statement shall be publicly available and easily accessible to users. The Training Register Demo homepage shall provide a clearly identifiable privacy statement link before users submit employee enrolment data. Users shall be able to open and read the statement without authentication or other access restrictions.",
+        "The statement shall describe the personal data collected, the training registration and completion-tracking purposes, intended recipients, storage and retention, and a privacy contact. This is a required control, not an assertion that the supplied frontend implements it. This DPIA is an assessment document, not a substitute for the user-facing statement.",
+        "The local registration homepage is served at GET / and submits the five declared client fields to POST /api/enrolments. Code review must compare the supplied homepage and its browser script against this requirement. Repository inspection alone cannot establish deployed accessibility or exclude a statement supplied outside this repository; live verification remains outstanding."
+      ],
+      "facts": [
+        { "id": "REQ-PS-01", "kind": "controlRequirement", "status": "REQUIRED_NOT_VERIFIED", "value": "Publicly available privacy statement linked from the homepage before data submission, readable without authentication", "quote": "Control TC-PD-03: A privacy statement shall be publicly available and easily accessible to users. The Training Register Demo homepage shall provide a clearly identifiable privacy statement link before users submit employee enrolment data. Users shall be able to open and read the statement without authentication or other access restrictions." }
+      ]
     }
   ]
 }

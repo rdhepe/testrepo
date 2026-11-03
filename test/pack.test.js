@@ -29,6 +29,12 @@ test('DOC-01 pack has source-grounded annotations, stable PDF pages and 25 pendi
     assert.equal(annotations.filter((fact) => fact.kind === 'purpose').length, 2);
     assert.equal(annotations.filter((fact) => fact.status === 'NOT_SPECIFIED').length, 3);
     assert.equal(annotations.filter((fact) => fact.status === 'AMBIGUOUS').length, 1);
+    const requirement = annotations.find((fact) => fact.id === 'REQ-PS-01');
+    assert.equal(requirement.kind, 'controlRequirement');
+    assert.equal(requirement.status, 'REQUIRED_NOT_VERIFIED');
+    assert.equal(requirement.pdfPage, 8);
+    assert.match(requirement.sourceQuote, /privacy statement shall be publicly available/);
+    assert.match(requirement.sourceQuote, /without authentication/);
     for (const document of manifest.documents) {
       const buffer = await readFile(join(output, document.path));
       assert.equal(createHash('sha256').update(buffer).digest('hex'), document.sha256);
@@ -50,6 +56,10 @@ test('DOC-01 pack has source-grounded annotations, stable PDF pages and 25 pendi
 test('UC3 pack contains genuine documents, negative fixtures and 26 unexecuted evidence steps', async () => {
   const output = await mkdtemp(join(tmpdir(), 'uc3-wf01-'));
   try {
+    const source = JSON.parse(await readFile(new URL('../fixtures/documents.json', import.meta.url), 'utf8'));
+    const requirement = source.DPIA.sections.find((section) => section.heading.includes('TC-PD-03'));
+    assert.match(requirement.paragraphs.join(' '), /privacy statement shall be publicly available/);
+    assert.match(requirement.paragraphs.join(' '), /without authentication/);
     const { manifest } = await buildPack({ output });
     const json = async (path) => JSON.parse(await readFile(join(output, path), 'utf8'));
     assert.equal(manifest.repositoryConfigured, false);

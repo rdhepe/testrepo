@@ -273,6 +273,16 @@
       "section": "S6 - Open questions and incomplete statements",
       "pdfPage": 7,
       "sourceQuote": "A future export might be shared with a training partner. The partner, export fields, destination and timing are undecided. This is an ambiguous future proposal, not an implemented processing activity or an approved purpose."
+    },
+    {
+      "id": "REQ-PS-01",
+      "kind": "controlRequirement",
+      "status": "REQUIRED_NOT_VERIFIED",
+      "value": "Publicly available privacy statement linked from the homepage before data submission, readable without authentication",
+      "quote": "Control TC-PD-03: A privacy statement shall be publicly available and easily accessible to users. The Training Register Demo homepage shall provide a clearly identifiable privacy statement link before users submit employee enrolment data. Users shall be able to open and read the statement without authentication or other access restrictions.",
+      "section": "S7 - Privacy statement requirement",
+      "pdfPage": 8,
+      "sourceQuote": "Control TC-PD-03: A privacy statement shall be publicly available and easily accessible to users. The Training Register Demo homepage shall provide a clearly identifiable privacy statement link before users submit employee enrolment data. Users shall be able to open and read the statement without authentication or other access restrictions."
     }
   ]
 }

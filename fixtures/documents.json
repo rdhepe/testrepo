@@ -13,7 +13,7 @@
       {
         "heading": "Components, deployment and data flow",
         "paragraphs": [
-          "A local HTTP client calls one Node.js HTTP service implemented in src/server.js. The service binds to 127.0.0.1, port 3100 by default; PORT can override the port. No frontend, database server, cloud resource, identity provider, or external integration is implemented.",
+          "A local browser or HTTP client calls one Node.js HTTP service implemented in src/server.js. GET / serves public/index.html and GET /app.js serves public/app.js. The registration frontend lists and submits enrolments through /api/enrolments. The service binds to 127.0.0.1, port 3100 by default; PORT can override the port. No database server, cloud resource, identity provider, or external integration is implemented.",
           "Data flow: local HTTP client -> Node.js API -> in-memory enrolment array -> JSON response to client. fixtures/application.json supplies metadata and two synthetic seed records at startup. Runtime records are not written to disk and are lost on restart. The seed JSON file remains unchanged. No infrastructure-as-code deployment is supplied."
         ]
       },
@@ -58,6 +58,13 @@
         "paragraphs": [
           "Two synthetic records are stored in fixtures/application.json. Runtime records are held in process memory on the local machine and are lost on restart. The seed file persists until manually removed. No automated retention or deletion mechanism, backup, or access-control enforcement is implemented.",
           "No cloud deployment or cross-border transfer is implemented. Publishing the repository discloses its synthetic records and documents according to GitHub repository visibility. Do not publish the original BRD or workbooks without authorization. The local tester is the only intended recipient of API records."
+        ]
+      },
+      {
+        "heading": "Privacy statement requirement (TC-PD-03)",
+        "paragraphs": [
+          "A privacy statement shall be publicly available and easily accessible to users. The Training Register Demo homepage shall provide a clearly identifiable privacy statement link before users submit employee enrolment data. Users shall be able to open and read the statement without authentication or other access restrictions.",
+          "The statement shall describe collected personal data, training registration and completion-tracking purposes, intended recipients, storage and retention, and a privacy contact. This is a required control, not a claim that the supplied frontend implements it. The DPIA is not a substitute for the user-facing statement. Repository review must compare public/index.html and public/app.js against the requirement. Live accessibility and any statement supplied outside the repository remain unverified."
         ]
       },
       {

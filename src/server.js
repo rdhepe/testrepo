@@ -5,6 +5,12 @@ import { randomUUID } from 'node:crypto';
 
 export const application = JSON.parse(await readFile(new URL('../fixtures/application.json', import.meta.url), 'utf8'));
 export const enrolmentFields = application.dataFields.map((field) => field.name);
+const frontend = new Map(await Promise.all([
+  ['/', 'index.html', 'text/html; charset=utf-8'],
+  ['/app.js', 'app.js', 'text/javascript; charset=utf-8']
+].map(async ([route, file, contentType]) => [route, {
+  contentType, body: await readFile(new URL(`../public/${file}`, import.meta.url), 'utf8')
+}])));
 
 export function createApplication() {
   const enrolments = structuredClone(application.enrolments);
@@ -18,6 +24,15 @@ export function createApplication() {
       response.end(JSON.stringify(body));
     };
     const pathname = new URL(request.url, 'http://localhost').pathname;
+    if (request.method === 'GET' && frontend.has(pathname)) {
+      const { contentType, body } = frontend.get(pathname);
+      response.writeHead(200, {
+        'Content-Type': contentType,
+        'Cache-Control': 'no-store',
+        'X-Content-Type-Options': 'nosniff'
+      });
+      return response.end(body);
+    }
     if (request.method === 'GET' && pathname === '/health') {
       return reply(200, { status: 'ok', applicationId: application.applicationId, synthetic: true });
     }

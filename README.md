@@ -9,8 +9,8 @@ This repository is the application **being assessed**, not a replacement for UC3
 Use the supplied inputs for **UC3-WF-01: Create an assessment with valid application
 metadata and required inputs** in your existing UC3 application.
 
-Training Register Demo is an employee-training enrolment API. All names, contacts,
-and records are synthetic. It has no frontend or external integrations. No AI
+Training Register Demo has an employee-training registration page and enrolment API.
+All names, contacts, and records are synthetic. It has no external integrations. No AI
 assessment, scanner, enterprise sign-in, or UC3 API integration is simulated.
 
 ## Run locally
@@ -23,7 +23,8 @@ npm test
 npm start
 ```
 
-Open <http://127.0.0.1:3100/api/application> for metadata, or
+Open <http://127.0.0.1:3100/> for the registration page,
+<http://127.0.0.1:3100/api/application> for metadata, or
 <http://127.0.0.1:3100/api/enrolments> for synthetic records. `GET /health` checks
 availability. `POST /api/enrolments` accepts the five fields in
 [fixtures/application.json](fixtures/application.json) plus optional `homeAddress`,
@@ -78,8 +79,10 @@ The [DOC-01 pack](test-data/uc3-doc-01) includes a paginated synthetic DPIA in P
 and DOCX, reviewer-only source annotations, a comparison worksheet, and evidence
 templates for all 25 steps. It covers fields, categories, subjects, purposes,
 storage, processing, exclusions and deliberately unspecified or ambiguous details.
-It describes the original five-field API baseline. The current API deliberately
+Its data inventory describes the original five-field API baseline. The current API deliberately
 deviates from that DPIA by collecting optional `homeAddress` for TC-PD-01.
+Section S7 also requires a publicly accessible privacy statement for TC-PD-03;
+the supplied frontend deliberately omits that statement and its link.
 Do not treat the DPIA as an accurate inventory of the current code.
 The default repository comes from [fixtures/application.json](fixtures/application.json);
 `--repository` and `--output` overrides are supported.
@@ -97,6 +100,16 @@ and stores a synthetic `homeAddress` that is absent from the DPIA and has no
 declared training purpose. The intended control assessment is **Non-Compliant**;
 UC3 correctly detecting that defect means the negative test succeeds.
 Only synthetic values may be used. This is not a production implementation.
+
+## Privacy statement negative test
+
+For **TC-PD-03**, follow
+[docs/TC-PD-03-runbook.md](docs/TC-PD-03-runbook.md). The registration homepage
+deliberately has no privacy statement or privacy-statement link. Both generated
+DPIAs require a statement linked before submission and readable without sign-in.
+The expected source-level control verdict is **Non-Compliant**. Repository review
+cannot prove deployed accessibility or exclude a statement supplied elsewhere.
+The existing TC-PD-01 defect is preserved.
 
 ## Publication boundary
 

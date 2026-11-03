@@ -4,6 +4,34 @@ import { readFile } from 'node:fs/promises';
 import { test } from 'node:test';
 import { application, createApplication, enrolmentFields } from '../src/server.js';
 
+test('TC-PD-03 serves a registration frontend without a privacy statement or link', async () => {
+  const server = createApplication();
+  server.listen(0, '127.0.0.1');
+  await once(server, 'listening');
+  const base = `http://127.0.0.1:${server.address().port}`;
+  try {
+    const page = await fetch(base);
+    assert.equal(page.status, 200);
+    assert.match(page.headers.get('content-type'), /text\/html/);
+    const html = await page.text();
+    assert.match(html, /<form[^>]+action="\/api\/enrolments"/);
+    for (const field of enrolmentFields) assert.ok(html.includes(`name="${field}"`));
+    assert.doesNotMatch(html, /privacy|data protection notice/i);
+    assert.match(html, /<script src="\/app.js" defer>/);
+    const script = await fetch(`${base}/app.js`);
+    assert.equal(script.status, 200);
+    assert.match(script.headers.get('content-type'), /text\/javascript/);
+    const source = await script.text();
+    assert.match(source, /fetch\('\/api\/enrolments'/);
+    assert.match(source, /method: 'POST'/);
+    assert.doesNotMatch(source, /privacy|data protection notice/i);
+    assert.equal((await fetch(`${base}/privacy`)).status, 404);
+    assert.equal((await fetch(`${base}/fixtures/doc-01.json`)).status, 404);
+  } finally {
+    await new Promise((resolve) => server.close(resolve));
+  }
+});
+
 test('TC-PD-01 deliberately collects and stores homeAddress outside the DPIA declaration', async () => {
   const dpia = await readFile(new URL('../fixtures/doc-01.json', import.meta.url), 'utf8');
   assert.equal(dpia.includes('homeAddress'), false);

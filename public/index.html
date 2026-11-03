@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Training Register Demo</title>
+  <style>
+    :root { color-scheme: light; font-family: "Segoe UI", sans-serif; color: #202b29; background: #f5f7f6; }
+    * { box-sizing: border-box; }
+    body { margin: 0; }
+    header { background: #fff; border-top: 5px solid #087c68; border-bottom: 1px solid #d5dfdb; padding: 24px max(24px, calc((100% - 1120px) / 2)); }
+    h1 { font-size: 26px; margin: 0 0 8px; }
+    h2 { font-size: 20px; margin: 0 0 24px; }
+    p { margin: 0; }
+    header p, footer { color: #53645e; font-size: 14px; }
+    main { max-width: 1168px; padding: 32px 24px; margin: auto; display: grid; grid-template-columns: minmax(260px, 360px) minmax(0, 1fr); gap: 40px; }
+    section { min-width: 0; }
+    form { display: grid; gap: 18px; }
+    label { display: grid; gap: 7px; font-size: 14px; font-weight: 600; }
+    input, select, button { font: inherit; border-radius: 4px; min-height: 44px; width: 100%; }
+    input, select { background: #fff; border: 1px solid #879a92; padding: 9px 12px; color: inherit; }
+    button { border: 0; padding: 12px 20px; background: #087c68; color: #fff; font-weight: 600; cursor: pointer; }
+    button:disabled { opacity: .6; cursor: wait; }
+    :focus-visible { outline: 3px solid #b65b00; outline-offset: 3px; }
+    .table-scroll { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; background: #fff; font-size: 14px; text-align: left; }
+    th { background: #e6eeea; font-weight: 600; }
+    td, th { padding: 14px 12px; border-bottom: 1px solid #d5dfdb; overflow-wrap: anywhere; }
+    td small { display: block; color: #53645e; margin-top: 5px; }
+    #feedback, #list-status { min-height: 24px; margin-top: 16px; font-size: 14px; overflow-wrap: anywhere; }
+    footer { max-width: 1168px; margin: auto; padding: 16px 24px 32px; }
+    @media (max-width: 760px) { main { grid-template-columns: minmax(0, 1fr); gap: 32px; } }
+  </style>
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <header>
+    <h1>Training Register Demo</h1>
+    <p>Learning Operations / Employee enrolments</p>
+  </header>
+  <main>
+    <section aria-labelledby="register-heading">
+      <h2 id="register-heading">Register an employee</h2>
+      <form id="enrolment-form" action="/api/enrolments" method="post">
+        <label>Employee ID<input name="employeeId" required maxlength="160" placeholder="SYN-EMP-003"></label>
+        <label>Employee name<input name="employeeName" required maxlength="160" placeholder="Synthetic Learner Three"></label>
+        <label>Work email<input name="workEmail" type="email" required maxlength="160" placeholder="learner.three@example.test"></label>
+        <label>Course code<input name="courseCode" required maxlength="160" placeholder="DEMO-SAFETY-101"></label>
+        <label>Completion status<select name="completionStatus"><option value="enrolled">Enrolled</option><option value="completed">Completed</option></select></label>
+        <button type="submit">Register employee</button>
+      </form>
+      <p id="feedback" role="status" aria-live="polite"></p>
+    </section>
+    <section aria-labelledby="enrolments-heading">
+      <h2 id="enrolments-heading">Current enrolments</h2>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th scope="col">Employee</th><th scope="col">Course</th><th scope="col">Status</th></tr></thead>
+          <tbody id="enrolments"></tbody>
+        </table>
+      </div>
+      <p id="list-status" role="status" aria-live="polite">Loading enrolments...</p>
+    </section>
+  </main>
+  <footer>Synthetic demonstration data only. No real employee information.</footer>
+</body>
+</html>
