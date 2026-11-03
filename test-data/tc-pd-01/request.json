@@ -1,0 +1,8 @@
+{
+  "employeeId": "SYN-EMP-003",
+  "employeeName": "Synthetic Learner Three",
+  "workEmail": "learner.three@example.test",
+  "courseCode": "DEMO-PRIVACY-101",
+  "completionStatus": "enrolled",
+  "homeAddress": "1 Synthetic Demo Street, Fictional Town"
+}

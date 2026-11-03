@@ -26,7 +26,9 @@ npm start
 Open <http://127.0.0.1:3100/api/application> for metadata, or
 <http://127.0.0.1:3100/api/enrolments> for synthetic records. `GET /health` checks
 availability. `POST /api/enrolments` accepts the five fields in
-[fixtures/application.json](fixtures/application.json), rejecting unknown fields.
+[fixtures/application.json](fixtures/application.json) plus optional `homeAddress`,
+an intentionally undeclared personal-data field for TC-PD-01. Other unknown fields
+are rejected.
 New records receive an `id` UUID and remain in memory until restart.
 
 > [!WARNING]
@@ -76,7 +78,9 @@ The [DOC-01 pack](test-data/uc3-doc-01) includes a paginated synthetic DPIA in P
 and DOCX, reviewer-only source annotations, a comparison worksheet, and evidence
 templates for all 25 steps. It covers fields, categories, subjects, purposes,
 storage, processing, exclusions and deliberately unspecified or ambiguous details.
-It describes the existing API; no new data collection or UC3 extraction is simulated.
+It describes the original five-field API baseline. The current API deliberately
+deviates from that DPIA by collecting optional `homeAddress` for TC-PD-01.
+Do not treat the DPIA as an accurate inventory of the current code.
 The default repository comes from [fixtures/application.json](fixtures/application.json);
 `--repository` and `--output` overrides are supported.
 
@@ -84,6 +88,15 @@ SME approval is **pending**, not generated or assumed. Obtain approval for the
 exact DPIA and annotations before treating the test prerequisite as met. Upload
 only the DPIA as the document-analysis input, not the reference answers. Local
 tests validate the fixture pack, not UC3 extraction accuracy.
+
+## Data minimization negative test
+
+For **TC-PD-01**, follow
+[docs/TC-PD-01-runbook.md](docs/TC-PD-01-runbook.md). The API deliberately accepts
+and stores a synthetic `homeAddress` that is absent from the DPIA and has no
+declared training purpose. The intended control assessment is **Non-Compliant**;
+UC3 correctly detecting that defect means the negative test succeeds.
+Only synthetic values may be used. This is not a production implementation.
 
 ## Publication boundary
 

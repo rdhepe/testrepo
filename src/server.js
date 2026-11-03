@@ -46,12 +46,16 @@ export function createApplication() {
         }
         const errors = enrolmentFields.filter((field) => typeof input[field] !== 'string' || !input[field].trim() || input[field].length > 160)
           .map((field) => `${field} must contain 1 to 160 characters.`);
+        if (Object.hasOwn(input, 'homeAddress') && (typeof input.homeAddress !== 'string' || !input.homeAddress.trim() || input.homeAddress.length > 160)) {
+          errors.push('homeAddress must contain 1 to 160 characters when supplied.');
+        }
         if (typeof input.workEmail === 'string' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.workEmail)) errors.push('workEmail must be an email address.');
         if (!['enrolled', 'completed'].includes(input.completionStatus)) errors.push('completionStatus must be enrolled or completed.');
-        const unknownFields = Object.keys(input).filter((field) => !enrolmentFields.includes(field));
+        const unknownFields = Object.keys(input).filter((field) => !enrolmentFields.includes(field) && field !== 'homeAddress');
         if (unknownFields.length) errors.push(`Unexpected fields: ${unknownFields.join(', ')}.`);
         if (errors.length) return reply(400, { errors });
         const record = { id: randomUUID(), ...Object.fromEntries(enrolmentFields.map((field) => [field, input[field].trim()])) };
+        if (Object.hasOwn(input, 'homeAddress')) record.homeAddress = input.homeAddress.trim();
         enrolments.push(record);
         return reply(201, record);
       } catch (error) {

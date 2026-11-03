@@ -1,7 +1,38 @@
 import assert from 'node:assert/strict';
 import { once } from 'node:events';
+import { readFile } from 'node:fs/promises';
 import { test } from 'node:test';
 import { application, createApplication, enrolmentFields } from '../src/server.js';
+
+test('TC-PD-01 deliberately collects and stores homeAddress outside the DPIA declaration', async () => {
+  const dpia = await readFile(new URL('../fixtures/doc-01.json', import.meta.url), 'utf8');
+  assert.equal(dpia.includes('homeAddress'), false);
+  assert.equal(enrolmentFields.includes('homeAddress'), false);
+  const input = JSON.parse(await readFile(new URL('../test-data/tc-pd-01/request.json', import.meta.url), 'utf8'));
+  assert.match(input.employeeId, /^SYN-/);
+  assert.match(input.workEmail, /@example\.test$/);
+  const server = createApplication();
+  server.listen(0, '127.0.0.1');
+  await once(server, 'listening');
+  const base = `http://127.0.0.1:${server.address().port}`;
+  const send = (body) => fetch(`${base}/api/enrolments`, {
+    method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body)
+  });
+  try {
+    const result = await send({ ...input, homeAddress: `  ${input.homeAddress}  ` });
+    assert.equal(result.status, 201);
+    const created = await result.json();
+    assert.equal(created.homeAddress, input.homeAddress);
+    const stored = await (await fetch(`${base}/api/enrolments`)).json();
+    assert.deepEqual(stored.find((record) => record.id === created.id), created);
+    for (const homeAddress of ['', ' ', null, 123, {}, 'x'.repeat(161)]) {
+      assert.equal((await send({ ...application.enrolments[0], homeAddress })).status, 400);
+    }
+    assert.equal((await (await fetch(`${base}/api/enrolments`)).json()).length, 3);
+  } finally {
+    await new Promise((resolve) => server.close(resolve));
+  }
+});
 
 test('synthetic application exposes matching metadata and validates enrolments', async () => {
   const server = createApplication();
